@@ -1,0 +1,15 @@
+1. If you are late or miss a session you have to buy everybody an Irn Bru
+
+2. No commits to master
+
+3. No commits to development
+
+4. Branches are created off development branch
+
+5. Pull requests need 1 approval (for now)
+
+6. development is merged to master once per week and needs 2 approvals
+
+7. All voices are equal
+
+8. All opinions are valid
