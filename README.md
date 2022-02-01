@@ -1,2 +1,2 @@
-##README 
-This is our readme
+#Build Status
+![workflow](https://github.com/Nathan03nable/sem/actions/workflows/main.yml/badge.svg)
