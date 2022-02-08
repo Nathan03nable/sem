@@ -95,6 +95,4 @@ public class Employee
     public void setManager(String manager) {
         this.manager = manager;
     }
-
-
 }
