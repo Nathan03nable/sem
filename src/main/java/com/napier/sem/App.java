@@ -119,13 +119,13 @@ public class App
         if (emp != null)
         {
             System.out.println(
-                    emp.empNo + " "
-                            + emp.firstName + " "
-                            + emp.lastName + "\n"
-                            + emp.title + "\n"
-                            + "Salary:" + emp.salary + "\n"
-                            + emp.deptName + "\n"
-                            + "Manager: " + emp.manager + "\n");
+                    emp.getEmpNo() + " "
+                            + emp.getFirstName() + " "
+                            + emp.getLastName() + "\n"
+                            + emp.getTitle() + "\n"
+                            + "Salary:" + emp.getSalary() + "\n"
+                            + emp.getDeptName() + "\n"
+                            + "Manager: " + emp.getManager() + "\n");
         }
     }
 

@@ -8,37 +8,37 @@ public class Employee
     /**
      * Employee number
      */
-    public int empNo;
+    private int empNo;
 
     /**
      * Employee's first name
      */
-    public String firstName;
+    private String firstName;
 
     /**
      * Employee's last name
      */
-    public String lastName;
+    private String lastName;
 
     /**
      * Employee's job title
      */
-    public String title;
+    private String title;
 
     /**
      * Employee's salary
      */
-    public int salary;
+    private int salary;
 
     /**
      * Employee's current department
      */
-    public String deptName;
+    private String deptName;
 
     /**
      * Employee's manager
      */
-    public String manager;
+    private String manager;
 
     public int getEmpNo() {
         return empNo;
