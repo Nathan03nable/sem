@@ -1,9 +1,6 @@
 package com.napier.sem;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class City {
+public class CityDto {
   private int id;
 
   private String name;
@@ -64,6 +61,4 @@ public class City {
   public void setPopulation(int population) {
     this.population = population;
   }
-
-
 }

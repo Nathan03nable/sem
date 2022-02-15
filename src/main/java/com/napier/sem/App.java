@@ -1,7 +1,6 @@
 package com.napier.sem;
 
 import java.sql.*;
-import java.sql.ResultSet;
 
 public class App
 {
@@ -13,16 +12,21 @@ public class App
 
         a.connect();
 
-        City city = a.getCityById(1);
+        CityDto cityDto = a.getACity(a.connection, 2);
 
-        System.out.println(city.toString());
+        System.out.println(cityDto.toString());
 
         a.disconnect();
+    }
+
+    private CityDto getACity(Connection con, int id){
+        City city = new City();
+        return city.getCityById(con, id);
     }
     /**
      * Connection to MySQL database.
      */
-    private Connection con = null;
+    private Connection connection = null;
 
     /**
      * Connect to the MySQL database.
@@ -59,7 +63,7 @@ public class App
             Thread.sleep(30000);
             // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
             // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
-            con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+            connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
             System.out.println("Successfully connected");
             return true;
         }
@@ -80,12 +84,12 @@ public class App
      */
     public void disconnect()
     {
-        if (con != null)
+        if (connection != null)
         {
             try
             {
                 // Close connection
-                con.close();
+                connection.close();
             }
             catch (Exception e)
             {
@@ -94,51 +98,5 @@ public class App
         }
     }
 
-    public City getCityById(int id)
-    {
-        try
-        {
-            return returnCityIfExists(id);
-        }
-        catch (SQLException e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get City details");
-            return null;
-        }
-    }
 
-
-    private City returnCityIfExists(int id) throws SQLException {
-        ResultSet resultSet = createAndExecuteSqlStatement(id);
-
-        if (resultSet.next())
-        {
-            return getCityFromDatabase(resultSet);
-        }
-        else{
-            return null;
-        }
-    }
-
-    private ResultSet createAndExecuteSqlStatement(int id) throws SQLException {
-        Statement stmt = con.createStatement();
-        String sqlString = createSqlString(id);
-        return stmt.executeQuery(sqlString);
-    }
-
-    private String createSqlString(int id) {
-        return "SELECT * " + "FROM city " + "WHERE ID = " + id;
-    }
-
-    public City getCityFromDatabase(ResultSet rset) throws SQLException {
-        City city = new City();
-        city.setId(rset.getInt("ID"));
-        city.setName(rset.getString("Name"));
-        city.setCountryCode(rset.getString("CountryCode"));
-        city.setDistrict(rset.getString("District"));
-        city.setPopulation(rset.getInt("population"));
-
-        return city;
-    }
 }
