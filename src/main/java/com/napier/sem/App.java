@@ -9,17 +9,14 @@ public class App
 
     public static void main(String[] args)
     {
-        // Create new Application
         App a = new App();
 
-        // Connect to database
         a.connect();
-        // Get Employee
-        Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);
 
-        // Disconnect from database
+        City city = a.getCityById(1);
+
+        System.out.println(city.toString());
+
         a.disconnect();
     }
     /**
@@ -59,13 +56,10 @@ public class App
         System.out.println("Connecting to database...");
         try
         {
-            // Wait a bit for db to start
-            // Set sleep to 0 if running locally
             Thread.sleep(30000);
-            // Connect to database
-            // Change url to "jdbc:mysql://db:3306/employees?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/employees?useSSL=false" to run locally
-            con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+            // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
+            // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
+            con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
             System.out.println("Successfully connected");
             return true;
         }
@@ -100,68 +94,51 @@ public class App
         }
     }
 
-    public Employee getEmployee(int ID)
+    public City getCityById(int id)
     {
         try
         {
-            return returnEmployeeIfExists(ID);
+            return returnCityIfExists(id);
         }
         catch (SQLException e)
         {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
+            System.out.println("Failed to get City details");
             return null;
         }
     }
 
-    public void displayEmployee(Employee emp)
-    {
-        if (emp != null)
-        {
-            System.out.println(
-                    emp.getEmpNo() + " "
-                            + emp.getFirstName() + " "
-                            + emp.getLastName() + "\n"
-                            + emp.getTitle() + "\n"
-                            + "Salary:" + emp.getSalary() + "\n"
-                            + emp.getDeptName() + "\n"
-                            + "Manager: " + emp.getManager() + "\n");
-        }
-    }
 
-    private Employee returnEmployeeIfExists(int ID) throws SQLException {
-        ResultSet resultSet = createAndExecuteSqlStatement(ID);
-        // Return new employee if valid.
-        // Check one is returned
+    private City returnCityIfExists(int id) throws SQLException {
+        ResultSet resultSet = createAndExecuteSqlStatement(id);
+
         if (resultSet.next())
         {
-            return getEmployeeFromDatabase(resultSet);
+            return getCityFromDatabase(resultSet);
         }
         else{
             return null;
         }
     }
 
-    private ResultSet createAndExecuteSqlStatement(int ID) throws SQLException {
-        // Create an SQL statement
+    private ResultSet createAndExecuteSqlStatement(int id) throws SQLException {
         Statement stmt = con.createStatement();
-        // Create string for SQL statement
-        String sqlString = createSqlString(ID);
-        // Execute SQL statement
+        String sqlString = createSqlString(id);
         return stmt.executeQuery(sqlString);
     }
 
-    private String createSqlString(int ID) {
-        return "SELECT emp_no, first_name, last_name "
-                + "FROM employees "
-                + "WHERE emp_no = " + ID;
+    private String createSqlString(int id) {
+        return "SELECT * " + "FROM city " + "WHERE ID = " + id;
     }
 
-    private Employee getEmployeeFromDatabase(ResultSet rset) throws SQLException {
-        Employee emp = new Employee();
-        emp.setEmpNo(rset.getInt("emp_no"));
-        emp.setFirstName(rset.getString("first_name"));
-        emp.setLastName(rset.getString("last_name"));
-        return emp;
+    public City getCityFromDatabase(ResultSet rset) throws SQLException {
+        City city = new City();
+        city.setId(rset.getInt("ID"));
+        city.setName(rset.getString("Name"));
+        city.setCountryCode(rset.getString("CountryCode"));
+        city.setDistrict(rset.getString("District"));
+        city.setPopulation(rset.getInt("population"));
+
+        return city;
     }
 }
