@@ -1,7 +1,6 @@
 package com.napier.sem;
 
 import java.sql.*;
-import java.sql.ResultSet;
 
 public class App
 {
@@ -9,23 +8,25 @@ public class App
 
     public static void main(String[] args)
     {
-        // Create new Application
         App a = new App();
 
-        // Connect to database
         a.connect();
-        // Get Employee
-        Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);
 
-        // Disconnect from database
+        CityDto cityDto = a.getACity(a.connection, 2);
+
+        System.out.println(cityDto.toString());
+
         a.disconnect();
+    }
+
+    private CityDto getACity(Connection con, int id){
+        City city = new City();
+        return city.getCityById(con, id);
     }
     /**
      * Connection to MySQL database.
      */
-    private Connection con = null;
+    private Connection connection = null;
 
     /**
      * Connect to the MySQL database.
@@ -59,13 +60,10 @@ public class App
         System.out.println("Connecting to database...");
         try
         {
-            // Wait a bit for db to start
-            // Set sleep to 0 if running locally
             Thread.sleep(30000);
-            // Connect to database
-            // Change url to "jdbc:mysql://db:3306/employees?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/employees?useSSL=false" to run locally
-            con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+            // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
+            // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
+            connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
             System.out.println("Successfully connected");
             return true;
         }
@@ -86,12 +84,12 @@ public class App
      */
     public void disconnect()
     {
-        if (con != null)
+        if (connection != null)
         {
             try
             {
                 // Close connection
-                con.close();
+                connection.close();
             }
             catch (Exception e)
             {
@@ -100,68 +98,5 @@ public class App
         }
     }
 
-    public Employee getEmployee(int ID)
-    {
-        try
-        {
-            return returnEmployeeIfExists(ID);
-        }
-        catch (SQLException e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get employee details");
-            return null;
-        }
-    }
 
-    public void displayEmployee(Employee emp)
-    {
-        if (emp != null)
-        {
-            System.out.println(
-                    emp.getEmpNo() + " "
-                            + emp.getFirstName() + " "
-                            + emp.getLastName() + "\n"
-                            + emp.getTitle() + "\n"
-                            + "Salary:" + emp.getSalary() + "\n"
-                            + emp.getDeptName() + "\n"
-                            + "Manager: " + emp.getManager() + "\n");
-        }
-    }
-
-    private Employee returnEmployeeIfExists(int ID) throws SQLException {
-        ResultSet resultSet = createAndExecuteSqlStatement(ID);
-        // Return new employee if valid.
-        // Check one is returned
-        if (resultSet.next())
-        {
-            return getEmployeeFromDatabase(resultSet);
-        }
-        else{
-            return null;
-        }
-    }
-
-    private ResultSet createAndExecuteSqlStatement(int ID) throws SQLException {
-        // Create an SQL statement
-        Statement stmt = con.createStatement();
-        // Create string for SQL statement
-        String sqlString = createSqlString(ID);
-        // Execute SQL statement
-        return stmt.executeQuery(sqlString);
-    }
-
-    private String createSqlString(int ID) {
-        return "SELECT emp_no, first_name, last_name "
-                + "FROM employees "
-                + "WHERE emp_no = " + ID;
-    }
-
-    private Employee getEmployeeFromDatabase(ResultSet rset) throws SQLException {
-        Employee emp = new Employee();
-        emp.setEmpNo(rset.getInt("emp_no"));
-        emp.setFirstName(rset.getString("first_name"));
-        emp.setLastName(rset.getString("last_name"));
-        return emp;
-    }
 }
