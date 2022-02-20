@@ -5,29 +5,34 @@ import java.sql.*;
 public class App
 {
     static final int RETRIES = 10;
+    //Connection to MySql
+    private Connection connection = null;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws SQLException {
         App a = new App();
 
         a.connect();
 
-        CityDto cityDto = a.getACity(a.connection, 2);
+        CityDto cityDto = a.getACity(3);
 
         System.out.println(cityDto.toString());
 
         a.disconnect();
     }
 
-    private CityDto getACity(Connection con, int id){
+    private CityDto getACity(int id) throws SQLException {
         City city = new City();
-        return city.getCityById(con, id);
-    }
-    /**
-     * Connection to MySQL database.
-     */
-    private Connection connection = null;
+        String sqlString = city.createSqlString(id);
 
+        ResultSet resultSet = createAndExecuteSqlStatement(sqlString);
+        resultSet.next();
+        return city.getCityFromDatabase(resultSet);
+    }
+
+    private ResultSet createAndExecuteSqlStatement(String sqlString) throws SQLException {
+        Statement statement = connection.createStatement();
+        return statement.executeQuery(sqlString);
+    }
     /**
      * Connect to the MySQL database.
      */
@@ -60,10 +65,10 @@ public class App
         System.out.println("Connecting to database...");
         try
         {
-            Thread.sleep(30000);
-            // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
-            connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+            Thread.sleep(0);
+            // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
+            // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:33060/world?useSSL=false", "root", "example");
             System.out.println("Successfully connected");
             return true;
         }
