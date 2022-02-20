@@ -1,8 +1,6 @@
 package com.napier.sem;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class databaseConnectionImpl implements databaseConnection{
 
@@ -14,9 +12,29 @@ public class databaseConnectionImpl implements databaseConnection{
     private Connection connection = null;
 
     /**
+     * Accepts an SQL statement, executes it and returns the result from the database
+     * @param request a string in the form of an SQL statement
+     * @return ResultSet from the database. Returns null if there was an error.
+     */
+    @Override
+    public ResultSet executeSQLStatement(String request) {
+        ResultSet result = null;
+        this.connect();
+        try {
+            Statement stmt = connection.createStatement();
+            result = stmt.executeQuery(request);
+        } catch (SQLException e){
+            System.out.println("Failed to execute SQL statement '" + request +"'");
+            System.out.println(e.getMessage());
+        }
+        this.disconnect();
+        return result;
+    }
+
+    /**
      * Connect to the MySQL database.
      */
-    public void connect()
+    private void connect()
     {
         checkForSqlDriver();
 
@@ -67,7 +85,7 @@ public class databaseConnectionImpl implements databaseConnection{
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect()
+    private void disconnect()
     {
         if (connection != null)
         {
@@ -82,4 +100,5 @@ public class databaseConnectionImpl implements databaseConnection{
             }
         }
     }
+
 }
