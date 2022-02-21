@@ -18,6 +18,7 @@ public class databaseConnectionImpl implements databaseConnection{
      */
     @Override
     public ResultSet executeSQLStatement(String request) {
+        System.out.println(request);
         ResultSet result = null;
         this.connect();
         try {
@@ -27,7 +28,7 @@ public class databaseConnectionImpl implements databaseConnection{
             System.out.println("Failed to execute SQL statement '" + request +"'");
             System.out.println(e.getMessage());
         }
-        this.disconnect();
+        // this.disconnect();
         return result;
     }
 
