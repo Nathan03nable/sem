@@ -16,7 +16,7 @@ public class App
         */
 
         DatabaseConnection db = DatabaseConnectionImpl.getInstance();
-        ReportLanguage languageReport = new ReportLanguage(db);
+        ReportLanguageImpl languageReport = new ReportLanguageImpl(db);
         System.out.println(languageReport.generateReport("some string that doesn't do anything yet"));
 
     }

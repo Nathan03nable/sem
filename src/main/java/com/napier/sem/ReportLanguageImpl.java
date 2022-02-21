@@ -3,11 +3,11 @@ package com.napier.sem;
 import java.util.List;
 import java.util.Map;
 
-public class ReportLanguage implements ReportGenerator{
+public class ReportLanguageImpl implements ReportGenerator{
 
     DatabaseConnection dbConnection;
 
-    public ReportLanguage(DatabaseConnection dbConnection){
+    public ReportLanguageImpl(DatabaseConnection dbConnection){
         this.dbConnection = dbConnection;
     }
 
