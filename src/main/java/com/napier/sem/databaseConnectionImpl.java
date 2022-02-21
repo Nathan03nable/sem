@@ -8,12 +8,22 @@ import java.util.Map;
 
 public class databaseConnectionImpl implements databaseConnection{
 
+    private static databaseConnectionImpl instance;
     static final int RETRIES = 10;
-
     /**
      * Connection to MySQL database.
      */
     private Connection connection = null;
+
+    private databaseConnectionImpl(){
+    }
+
+    public static databaseConnection getInstance(){
+        if (instance == null){
+            instance = new databaseConnectionImpl();
+        }
+        return instance;
+    }
 
     /**
      * Accepts an SQL statement, executes it and returns the result of the query

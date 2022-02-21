@@ -6,6 +6,8 @@ import java.util.Map;
 
 public interface databaseConnection {
 
-    //TODO: don't return a ResultSet, return a map(?) instead
     List<Map<String, Object>> executeSQLStatement(String sqlStatement);
+
+    //TODO: add getInstance() method to interface?
+
 }
