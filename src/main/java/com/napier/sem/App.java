@@ -1,23 +1,20 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class App
 {
     public static void main(String[] args) throws SQLException {
         App a = new App();
         databaseConnectionImpl db = new databaseConnectionImpl();
-        ResultSet rset = db.executeSQLStatement("select * from city where id='6'");
+        List<Map<String, Object>> result = db.executeSQLStatement("select * from city where name like 'A%' order by CountryCode asc");
 
-        if(rset.next())
-        {
-            System.out.println("resultSet has next");
-            String name = rset.getString("Name");
-            System.out.println(name);
-        } else {
-            System.out.println("empty result");
+        for (int i = 0; i < result.size(); i++){
+            System.out.println(result.get(i).toString());
         }
-
 
 
         //a.connect();
