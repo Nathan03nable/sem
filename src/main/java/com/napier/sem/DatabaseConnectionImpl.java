@@ -6,21 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class databaseConnectionImpl implements DatabaseConnection {
+public class DatabaseConnectionImpl implements DatabaseConnection {
 
-    private static databaseConnectionImpl instance;
+    private static DatabaseConnectionImpl instance;
     static final int RETRIES = 10;
     /**
      * Connection to MySQL database.
      */
     private Connection connection = null;
 
-    private databaseConnectionImpl(){
+    private DatabaseConnectionImpl(){
     }
 
     public static DatabaseConnection getInstance(){
         if (instance == null){
-            instance = new databaseConnectionImpl();
+            instance = new DatabaseConnectionImpl();
         }
         return instance;
     }

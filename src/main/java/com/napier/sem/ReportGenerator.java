@@ -1,4 +1,7 @@
 package com.napier.sem;
 
-public interface language {
+public interface ReportGenerator {
+    String generateReport(String sqlStatement);
+
+    String constructSqlStatement();
 }
