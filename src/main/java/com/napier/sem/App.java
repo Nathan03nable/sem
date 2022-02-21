@@ -4,16 +4,7 @@ import java.sql.*;
 
 public class App
 {
-    public static void main(String[] args) throws SQLException {
-        /*
-        App a = new App();
-        databaseConnectionImpl db = new databaseConnectionImpl();
-        List<Map<String, Object>> result = db.executeSQLStatement("select * from city where name like 'A%' order by CountryCode asc");
-
-        for (int i = 0; i < result.size(); i++){
-            System.out.println(result.get(i).toString());
-        }
-        */
+    public static void main(String[] args) {
 
         DatabaseConnection db = DatabaseConnectionImpl.getInstance();
         ReportLanguageImpl languageReport = new ReportLanguageImpl(db);
