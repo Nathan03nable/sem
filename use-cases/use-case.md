@@ -1,40 +1,40 @@
-USE CASE: Produce a Report on countries and their population
+**USE CASE: 1 Produce a Report on countries and their population**
 
-CHARACTERISTIC INFORMATION
+**CHARACTERISTIC INFORMATION**
 
-Goal in Context
+**Goal in Context**
 
 As a user I want to retrieve reports on countries and their populations so that I can support the organisation’s business goals.
 
-Scope
+**Scope**
 
 Designing and implementing a new system to allow easy access to this population information.
 
-Level
+**Level**
 
 Primary task.
 
-Preconditions
+**Preconditions**
 
 Database contains countries and their population data.
 
-Success End Condition
+**Success End Condition**
 
 A report is available for the organisation.
 
-Failed End Condition
+**Failed End Condition**
 
 No report is produced.
 
-Primary Actor
+**Primary Actor**
 
 User.
 
-Trigger
+**Trigger**
 
 A request for population information is sent by the user.
 
-MAIN SUCCESS SCENARIO
+**MAIN SUCCESS SCENARIO**
 
 1.Organisation request reporting on population information.
 
@@ -52,10 +52,14 @@ MAIN SUCCESS SCENARIO
 
 8.User provides report to organisation.
 
-SUB-VARIATIONS
+**EXTENSIONS**
+
+5. 6, 7 User provides a negative number when querying the top number populated countries
+
+**SUB-VARIATIONS**
 
 None.
 
-SCHEDULE
+**SCHEDULE**
 
-DUE DATE: Release 1.0
+**DUE DATE:** Release 1.0
