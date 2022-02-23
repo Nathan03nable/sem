@@ -1,102 +1,30 @@
 package com.napier.sem;
 
-import java.sql.*;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
+import org.bson.Document;
 
 public class App
 {
-    static final int RETRIES = 10;
-
     public static void main(String[] args)
     {
-        App a = new App();
+        // Connect to MongoDB
+        MongoClient mongoClient = new MongoClient("mongo-dbserver");
+        // Get a database - will create when we use it
+        MongoDatabase database = mongoClient.getDatabase("mydb");
+        // Get a collection from the database
+        MongoCollection<Document> collection = database.getCollection("test");
+        // Create a document to store
+        Document doc = new Document("name", "Kevin Sim")
+                .append("class", "Software Engineering Methods")
+                .append("year", "2021")
+                .append("result", new Document("CW", 95).append("EX", 85));
+        // Add document to collection
+        collection.insertOne(doc);
 
-        a.connect();
-
-        CityDto cityDto = a.getACity(a.connection, 2);
-
-        System.out.println(cityDto.toString());
-
-        a.disconnect();
+        // Check document in collection
+        Document myDoc = collection.find().first();
+        System.out.println(myDoc.toJson());
     }
-
-    private CityDto getACity(Connection con, int id){
-        City city = new City();
-        return city.getCityById(con, id);
-    }
-    /**
-     * Connection to MySQL database.
-     */
-    private Connection connection = null;
-
-    /**
-     * Connect to the MySQL database.
-     */
-    public void connect()
-    {
-        checkForSqlDriver();
-
-        for (int i = 0; i < RETRIES; ++i)
-        {
-            if (tryToConnect(i)){
-                break;
-            }
-        }
-    }
-
-    private void checkForSqlDriver() {
-        try
-        {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.out.println("Could not load SQL driver");
-            System.exit(-1);
-        }
-    }
-
-    private boolean tryToConnect(int i) {
-        System.out.println("Connecting to database...");
-        try
-        {
-            Thread.sleep(30000);
-            // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
-            connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
-            System.out.println("Successfully connected");
-            return true;
-        }
-        catch (SQLException sqle)
-        {
-            System.out.println("Failed to connect to database attempt " + i);
-            System.out.println(sqle.getMessage());
-        }
-        catch (InterruptedException ie)
-        {
-            System.out.println("Thread interrupted? Should not happen.");
-        }
-        return false;
-    }
-
-    /**
-     * Disconnect from the MySQL database.
-     */
-    public void disconnect()
-    {
-        if (connection != null)
-        {
-            try
-            {
-                // Close connection
-                connection.close();
-            }
-            catch (Exception e)
-            {
-                System.out.println("Error closing connection to database");
-            }
-        }
-    }
-
-
 }
