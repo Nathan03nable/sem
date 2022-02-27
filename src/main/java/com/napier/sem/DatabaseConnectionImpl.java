@@ -16,6 +16,8 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
     private Connection connection = null;
 
     private DatabaseConnectionImpl(){
+        this.connect();
+
     }
 
     public static DatabaseConnection getInstance(){
@@ -31,12 +33,11 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
      * @return List of results from the database. Returns null if there was an error.
      */
     @Override
-    public List<Map<String, Object>> executeSQLStatement(String request) {
+    public String executeSQLStatement(String request) {
         ResultSet result = null;
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         Map<String, Object> row = null;
 
-        this.connect();
         try {
             Statement stmt = connection.createStatement();
             result = stmt.executeQuery(request);
@@ -45,7 +46,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
             Integer columnCount = metaData.getColumnCount();
 
             while (result.next()) {
-                row = new HashMap<String, Object>();
+                row = new HashMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     row.put(metaData.getColumnName(i), result.getObject(i));
                 }
@@ -56,8 +57,13 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
             System.out.println(e.getMessage());
         }
 
-        this.disconnect();
-        return resultList;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < resultList.size(); i++){
+            sb.append(resultList.get(i).toString());
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -114,7 +120,8 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
     /**
      * Disconnect from the MySQL database.
      */
-    private void disconnect()
+    @Override
+    public void disconnect()
     {
         if (connection != null)
         {
