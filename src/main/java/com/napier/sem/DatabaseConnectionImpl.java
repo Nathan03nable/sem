@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatabaseConnectionImpl implements DatabaseConnection {
+public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private static DatabaseConnectionImpl instance;
     static final int RETRIES = 10;
@@ -20,7 +20,7 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
 
     }
 
-    public static DatabaseConnection getInstance(){
+    public static IDatabaseConnection getInstance(){
         if (instance == null){
             instance = new DatabaseConnectionImpl();
         }

@@ -2,9 +2,9 @@ package com.napier.sem;
 
 public class ReportLanguageImpl implements ReportGenerator{
 
-    DatabaseConnection dbConnection;
+    IDatabaseConnection dbConnection;
 
-    public ReportLanguageImpl(DatabaseConnection dbConnection){
+    public ReportLanguageImpl(IDatabaseConnection dbConnection){
         this.dbConnection = dbConnection;
     }
 
