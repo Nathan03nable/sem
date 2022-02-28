@@ -43,7 +43,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             result = stmt.executeQuery(request);
 
             ResultSetMetaData metaData = result.getMetaData();
-            Integer columnCount = metaData.getColumnCount();
+            int columnCount = metaData.getColumnCount();
 
             while (result.next()) {
                 row = new HashMap<>();
@@ -58,8 +58,8 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         }
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < resultList.size(); i++){
-            sb.append(resultList.get(i).toString());
+        for (Map<String, Object> stringObjectMap : resultList) {
+            sb.append(stringObjectMap.toString());
             sb.append("\n");
         }
 
