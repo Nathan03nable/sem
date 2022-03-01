@@ -1,10 +1,11 @@
-**USE CASE: 4 Produce a report on population statistics**
+**USE CASE: 5 Produce a report on capital cities statistics**
 
 **CHARACTERISTIC INFORMATION**
 
 **Goal in Context**
 
 As a user I want to retrieve reports on capital cities and their populations so that I can support the organisation’s business goals
+
 **Scope**
 
 Designing and implementing a new system to allow easy access to the capital cities statistics.
@@ -47,7 +48,7 @@ A request for capital cities information is sent by the user.
 
 6. User extracts information for the top N populated capital cities in a region where N is provided by the user.
 
-7.User provides report to organisation.
+7. User provides report to organisation.
 
 
 **EXTENSIONS**
@@ -60,4 +61,4 @@ None.
 
 **SCHEDULE**
 
-**DUE DATE:** Release 1.0
+**DUE DATE:** Release 0.1.1.0
