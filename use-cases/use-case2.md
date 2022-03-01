@@ -66,4 +66,4 @@ None.
 
 **SCHEDULE**
 
-**DUE DATE:** Release 1.0
+**DUE DATE:** Release 0.1.1.0
