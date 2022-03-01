@@ -52,7 +52,7 @@ A request for population information is sent by the user.
 
 **EXTENSIONS**
 
-
+2-7 User enters invalid data. 
 
 **SUB-VARIATIONS**
 
@@ -60,4 +60,4 @@ None.
 
 **SCHEDULE**
 
-**DUE DATE:** Release 1.0
+**DUE DATE:** Release 0.1.1.0
