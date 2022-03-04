@@ -17,7 +17,6 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private DatabaseConnectionImpl(){
         this.connect();
-
     }
 
     public static IDatabaseConnection getInstance(){
@@ -84,7 +83,6 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     private void checkForSqlDriver() {
         try
         {
-            // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         }
         catch (ClassNotFoundException e)
@@ -99,8 +97,8 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         try
         {
             Thread.sleep(30000);
-            // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
+            // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
+            // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
             connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
             System.out.println("Successfully connected");
             return true;
