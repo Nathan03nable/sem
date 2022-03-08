@@ -16,10 +16,10 @@ public class App
         System.out.println(languageReport.generateReport(stmt2));
         */
 
-        IDatabaseConnection db = DatabaseConnectionImpl.getInstance();
-        Population population = new Population(db);
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
+        Population population = new Population(databaseConnection);
         population.worldPopulation();
 
-        db.disconnect();
+        databaseConnection.disconnect();
     }
 }

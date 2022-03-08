@@ -12,9 +12,9 @@ public class Population {
   }
 
   public void worldPopulation(){
-    IDatabaseConnection db = DatabaseConnectionImpl.getInstance();
+    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT name, code, continent, region, population, capital FROM country ORDER BY population DESC;";
-    ReportLanguageImpl languageReport = new ReportLanguageImpl(db);
+    ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
     System.out.println(languageReport.generateReport(stmt));
   }
 }
