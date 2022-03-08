@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatabaseConnectionImpl implements DatabaseConnection {
+public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private static DatabaseConnectionImpl instance;
     static final int RETRIES = 10;
@@ -16,9 +16,10 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
     private Connection connection = null;
 
     private DatabaseConnectionImpl(){
+        this.connect();
     }
 
-    public static DatabaseConnection getInstance(){
+    public static IDatabaseConnection getInstance(){
         if (instance == null){
             instance = new DatabaseConnectionImpl();
         }
@@ -31,21 +32,20 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
      * @return List of results from the database. Returns null if there was an error.
      */
     @Override
-    public List<Map<String, Object>> executeSQLStatement(String request) {
+    public String executeSQLStatement(String request) {
         ResultSet result = null;
         List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
         Map<String, Object> row = null;
 
-        this.connect();
         try {
             Statement stmt = connection.createStatement();
             result = stmt.executeQuery(request);
 
             ResultSetMetaData metaData = result.getMetaData();
-            Integer columnCount = metaData.getColumnCount();
+            int columnCount = metaData.getColumnCount();
 
             while (result.next()) {
-                row = new HashMap<String, Object>();
+                row = new HashMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     row.put(metaData.getColumnName(i), result.getObject(i));
                 }
@@ -56,8 +56,13 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
             System.out.println(e.getMessage());
         }
 
-        this.disconnect();
-        return resultList;
+        StringBuilder sb = new StringBuilder();
+        for (Map<String, Object> stringObjectMap : resultList) {
+            sb.append(stringObjectMap.toString());
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -78,7 +83,6 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
     private void checkForSqlDriver() {
         try
         {
-            // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         }
         catch (ClassNotFoundException e)
@@ -93,8 +97,8 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
         try
         {
             Thread.sleep(30000);
-            // Change url to "jdbc:mysql://db:3306/Citys?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/Citys?useSSL=false" to run locally
+            // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
+            // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
             connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
             System.out.println("Successfully connected");
             return true;
@@ -114,7 +118,8 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
     /**
      * Disconnect from the MySQL database.
      */
-    private void disconnect()
+    @Override
+    public void disconnect()
     {
         if (connection != null)
         {
