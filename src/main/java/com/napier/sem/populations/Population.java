@@ -13,7 +13,12 @@ public class Population {
 
   public void worldPopulation(){
     IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
-    String stmt = "SELECT name, code, continent, region, population, capital FROM country ORDER BY population DESC;";
+    String stmt = "SELECT SUM(DISTINCT(country.population)) AS 'World Population ',"
+        + "sum(city.population) AS 'Cities Population ',"
+        + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population% ',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population ',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population% '"
+        + "FROM country JOIN city ON CountryCode = Code;";
     ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
     System.out.println(languageReport.generateReport(stmt));
   }
