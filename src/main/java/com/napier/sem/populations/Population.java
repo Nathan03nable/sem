@@ -67,4 +67,20 @@ public class Population {
     ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
     System.out.println(languageReport.generateReport(stmt));
   }
+
+  public void districtPopulation() {
+    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
+    String stmt = "SELECT city.district, "
+            + "SUM(DISTINCT(country.population)) AS 'Region Population',"
+            + "sum(city.population) AS 'Cities Population',"
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE city.district LIKE 'Michigan' "
+            + "Group BY city.district;";
+    ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
+    System.out.println(languageReport.generateReport(stmt));
+  }
+
 }

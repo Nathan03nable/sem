@@ -12,6 +12,7 @@ public class App
         population.continentPopulation();
         population.regionPopulation();
         population.countryPopulation();
+        population.districtPopulation();
 
         databaseConnection.disconnect();
     }
