@@ -8,6 +8,7 @@ public class App
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
         Population population = new Population(databaseConnection);
         population.worldPopulation();
+        population.continentPopulation();
         databaseConnection.disconnect();
     }
 }
