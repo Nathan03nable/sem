@@ -25,13 +25,30 @@ public class Population {
 
   public void continentPopulation(){
     IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
-    String stmt = "SELECT SUM(DISTINCT(country.population)) AS 'World Population',"
+    String stmt = "SELECT country.Continent,"
+            + "SUM(DISTINCT(country.population)) AS 'Continent Population',"
             + "sum(city.population) AS 'Cities Population',"
             + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
             + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
             + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
             + "FROM country JOIN city ON CountryCode = Code "
-            + "WHERE country.Continent LIKE 'Europe';";
+            + "WHERE country.Continent LIKE 'Europe' "
+            + "Group BY country.Continent;";
+    ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
+    System.out.println(languageReport.generateReport(stmt));
+  }
+
+  public void regionPopulation() {
+    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
+    String stmt = "SELECT country.region, "
+            + "SUM(DISTINCT(country.population)) AS 'Region Population',"
+            + "sum(city.population) AS 'Cities Population',"
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE country.region LIKE 'Caribbean' "
+            + "Group BY country.region;";
     ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
     System.out.println(languageReport.generateReport(stmt));
   }

@@ -7,8 +7,11 @@ public class App
     public static void main(String[] args) {
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
         Population population = new Population(databaseConnection);
+
         population.worldPopulation();
         population.continentPopulation();
+        population.regionPopulation();
+
         databaseConnection.disconnect();
     }
 }
