@@ -52,4 +52,19 @@ public class Population {
     ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
     System.out.println(languageReport.generateReport(stmt));
   }
+
+  public void countryPopulation() {
+    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
+    String stmt = "SELECT country.name, "
+            + "SUM(DISTINCT(country.population)) AS 'Region Population',"
+            + "sum(city.population) AS 'Cities Population',"
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE country.name LIKE 'United Kingdom' "
+            + "Group BY country.code;";
+    ReportLanguageImpl languageReport = new ReportLanguageImpl(databaseConnection);
+    System.out.println(languageReport.generateReport(stmt));
+  }
 }
