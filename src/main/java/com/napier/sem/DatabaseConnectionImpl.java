@@ -3,6 +3,7 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +35,8 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     @Override
     public String executeSQLStatement(String request) {
         ResultSet result = null;
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-        Map<String, Object> row = null;
+        List<LinkedHashMap<String, Object>> resultList = new ArrayList<LinkedHashMap<String, Object>>();
+        LinkedHashMap<String, Object> row = null;
 
         try {
             Statement stmt = connection.createStatement();
@@ -45,7 +46,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             int columnCount = metaData.getColumnCount();
 
             while (result.next()) {
-                row = new HashMap<>();
+                row = new LinkedHashMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     row.put(metaData.getColumnName(i), result.getObject(i));
                 }
@@ -96,7 +97,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         System.out.println("Connecting to database...");
         try
         {
-            Thread.sleep(30000);
+            Thread.sleep(0);
             // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
             // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
             connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");

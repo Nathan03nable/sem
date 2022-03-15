@@ -1,18 +1,16 @@
 package com.napier.sem.populations;
 
-import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
 import com.napier.sem.ReportLanguageImpl;
 
 public class Population {
-  IDatabaseConnection dbConnection;
+  IDatabaseConnection databaseConnection;
 
-  public Population(IDatabaseConnection dbConnection){
-    this.dbConnection = dbConnection;
+  public Population(IDatabaseConnection databaseConnection){
+    this.databaseConnection = databaseConnection;
   }
 
   public void worldPopulation(){
-    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT SUM(DISTINCT(country.population)) AS 'World Population',"
         + "sum(city.population) AS 'Cities Population',"
         + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
@@ -24,7 +22,6 @@ public class Population {
   }
 
   public void continentPopulation(){
-    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT country.Continent,"
             + "SUM(DISTINCT(country.population)) AS 'Continent Population',"
             + "sum(city.population) AS 'Cities Population',"
@@ -39,7 +36,6 @@ public class Population {
   }
 
   public void regionPopulation() {
-    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT country.region, "
             + "SUM(DISTINCT(country.population)) AS 'Region Population',"
             + "sum(city.population) AS 'Cities Population',"
@@ -54,7 +50,6 @@ public class Population {
   }
 
   public void countryPopulation() {
-    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT country.name, "
             + "SUM(DISTINCT(country.population)) AS 'Region Population',"
             + "sum(city.population) AS 'Cities Population',"
@@ -69,7 +64,6 @@ public class Population {
   }
 
   public void districtPopulation() {
-    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT city.district, "
             + "SUM(DISTINCT(city.population)) AS 'District Population' "
             + "FROM city "
@@ -80,7 +74,6 @@ public class Population {
   }
 
   public void cityPopulation() {
-    IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
     String stmt = "SELECT city.name, "
             + "SUM(DISTINCT(city.population)) AS 'City Population' "
             + "FROM city "
