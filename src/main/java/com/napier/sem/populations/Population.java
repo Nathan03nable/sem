@@ -9,7 +9,7 @@ public class Population {
     this.databaseConnection = databaseConnection;
   }
 
-  public void worldPopulation(){
+  public String worldPopulation(){
     String stmt = "SELECT SUM(DISTINCT(country.population)) AS 'World Population',"
         + "sum(city.population) AS 'Cities Population',"
         + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
@@ -17,10 +17,10 @@ public class Population {
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
         + "FROM country JOIN city ON CountryCode = Code;";
 
-    System.out.println(databaseConnection.executeSQLStatement(stmt));
+    return databaseConnection.executeSQLStatement(stmt);
   }
 
-  public void continentPopulation(){
+  public String continentPopulation(){
     String stmt = "SELECT country.Continent,"
             + "SUM(DISTINCT(country.population)) AS 'Continent Population',"
             + "sum(city.population) AS 'Cities Population',"
@@ -31,10 +31,10 @@ public class Population {
             + "WHERE country.Continent LIKE 'Europe' "
             + "Group BY country.Continent;";
 
-    System.out.println(databaseConnection.executeSQLStatement(stmt));
+    return databaseConnection.executeSQLStatement(stmt);
   }
 
-  public void regionPopulation() {
+  public String regionPopulation() {
     String stmt = "SELECT country.region, "
             + "SUM(DISTINCT(country.population)) AS 'Region Population',"
             + "sum(city.population) AS 'Cities Population',"
@@ -45,10 +45,10 @@ public class Population {
             + "WHERE country.region LIKE 'Caribbean' "
             + "Group BY country.region;";
 
-    System.out.println(databaseConnection.executeSQLStatement(stmt));
+    return databaseConnection.executeSQLStatement(stmt);
   }
 
-  public void countryPopulation() {
+  public String countryPopulation() {
     String stmt = "SELECT country.name, "
             + "SUM(DISTINCT(country.population)) AS 'Region Population',"
             + "sum(city.population) AS 'Cities Population',"
@@ -59,26 +59,26 @@ public class Population {
             + "WHERE country.name LIKE 'United Kingdom' "
             + "Group BY country.code;";
 
-    System.out.println(databaseConnection.executeSQLStatement(stmt));
+    return databaseConnection.executeSQLStatement(stmt);
   }
 
-  public void districtPopulation() {
+  public String districtPopulation() {
     String stmt = "SELECT city.district, "
             + "SUM(DISTINCT(city.population)) AS 'District Population' "
             + "FROM city "
             + "WHERE city.district LIKE 'Michigan' "
             + "Group BY city.district;";
 
-    System.out.println(databaseConnection.executeSQLStatement(stmt));
+    return databaseConnection.executeSQLStatement(stmt);
   }
 
-  public void cityPopulation() {
+  public String cityPopulation() {
     String stmt = "SELECT city.name, "
             + "SUM(DISTINCT(city.population)) AS 'City Population' "
             + "FROM city "
             + "WHERE city.name LIKE 'Edinburgh' "
             + "Group BY city.name;";
 
-    System.out.println(databaseConnection.executeSQLStatement(stmt));
+    return databaseConnection.executeSQLStatement(stmt);
   }
 }
