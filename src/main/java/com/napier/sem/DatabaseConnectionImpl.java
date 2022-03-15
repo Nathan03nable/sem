@@ -97,7 +97,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         System.out.println("Connecting to database...");
         try
         {
-            Thread.sleep(0);
+            Thread.sleep(30000);
             // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
             // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
             connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
