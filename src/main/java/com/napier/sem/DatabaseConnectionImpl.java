@@ -60,7 +60,9 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         StringBuilder sb = new StringBuilder();
         for (Map<String, Object> stringObjectMap : resultList) {
             sb.append(stringObjectMap.toString());
-            sb.append("\n");
+            if(stringObjectMap != resultList.get(resultList.size() - 1)) {
+                sb.append("\n");
+            }
         }
 
         return sb.toString();
