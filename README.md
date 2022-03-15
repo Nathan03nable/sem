@@ -10,4 +10,3 @@
 - Run `mvn clean package` or alternatively select the maven toolbar on the right hand side and double click clean, then double click package
 - Locate the `docker-compose.yml` in the root of the project
 - Select run all
-- Connect to database through selecting 'Docker-compose: sem', expand 'app' and run '/sem_app_1' 
