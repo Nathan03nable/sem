@@ -1,17 +1,20 @@
 package com.napier.sem;
 
+import com.napier.sem.populations.Population;
+
 public class App
 {
     public static void main(String[] args) {
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
+        Population population = new Population(databaseConnection);
 
-        IDatabaseConnection db = DatabaseConnectionImpl.getInstance();
-        String stmt = "Select * from city where name like 'V%' order by name desc";
-        ReportLanguageImpl languageReport = new ReportLanguageImpl(db);
-        System.out.println(languageReport.generateReport(stmt));
+        System.out.println(population.worldPopulation());
+        System.out.println(population.continentPopulation());
+        System.out.println(population.regionPopulation());
+        System.out.println(population.countryPopulation());
+        System.out.println(population.districtPopulation());
+        System.out.println(population.cityPopulation());
 
-        String stmt2 = "Select * from city where name like 'Y%' order by name desc";
-        System.out.println(languageReport.generateReport(stmt2));
-
-        db.disconnect();
+        databaseConnection.disconnect();
     }
 }
