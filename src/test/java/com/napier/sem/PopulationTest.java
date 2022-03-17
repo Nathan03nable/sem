@@ -2,15 +2,23 @@ package com.napier.sem;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.napier.sem.populations.Population;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 public class PopulationTest {
 
-  static IDatabaseConnection databaseConnection;
+  private Population subject;
 
-  @BeforeAll
-  static void init(){
-    databaseConnection = DatabaseConnectionImpl.getInstance();
+  @Mock
+  private SqlManager sqlManager;
+
+  @BeforeEach
+  public void init(){
+    MockitoAnnotations.initMocks(this);
+    subject = new Population(sqlManager);
   }
 
   @Test
@@ -23,9 +31,11 @@ public class PopulationTest {
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
         + "FROM country JOIN city ON CountryCode = Code;";
 
-    String result = "{World Population=6078547450, Cities Population=1429559884, Cities Population%=23.5181, Rural Population=4648987566, Rural Population%=76.4819}";
+    String expected = "{World Population=6078547450, Cities Population=1429559884, Cities Population%=23.5181, Rural Population=4648987566, Rural Population%=76.4819}";
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    assertEquals(result, databaseConnection.executeSQLStatement(stmt));
+    String result = subject.worldPopulation();
+    assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
@@ -41,9 +51,12 @@ public class PopulationTest {
         + "WHERE country.Continent LIKE 'Europe' "
         + "Group BY country.Continent;";
 
-    String result = "{Continent=Europe, Continent Population=730074600, Cities Population=241942813, Cities Population%=33.1395, Rural Population=488131787, Rural Population%=66.8605}";
+    String expected = "{Continent=Europe, Continent Population=730074600, Cities Population=241942813, Cities Population%=33.1395, Rural Population=488131787, Rural Population%=66.8605}";
 
-    assertEquals(result, databaseConnection.executeSQLStatement(stmt));
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.continentPopulation();
+    assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
@@ -59,9 +72,12 @@ public class PopulationTest {
         + "WHERE country.region LIKE 'Caribbean' "
         + "Group BY country.region;";
 
-    String result = "{Region=Caribbean, Region Population=38102000, Cities Population=11067550, Cities Population%=29.0472, Rural Population=27034450, Rural Population%=70.9528}";
+    String expected = "{Region=Caribbean, Region Population=38102000, Cities Population=11067550, Cities Population%=29.0472, Rural Population=27034450, Rural Population%=70.9528}";
 
-    assertEquals(result, databaseConnection.executeSQLStatement(stmt));
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.regionPopulation();
+    assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
@@ -77,9 +93,12 @@ public class PopulationTest {
         + "WHERE country.name LIKE 'United Kingdom' "
         + "Group BY country.code;";
 
-    String result = "{Name=United Kingdom, Region Population=59623400, Cities Population=22436673, Cities Population%=37.6307, Rural Population=37186727, Rural Population%=62.3693}";
+    String expected = "{Name=United Kingdom, Region Population=59623400, Cities Population=22436673, Cities Population%=37.6307, Rural Population=37186727, Rural Population%=62.3693}";
 
-    assertEquals(result, databaseConnection.executeSQLStatement(stmt));
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.countryPopulation();
+    assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
@@ -91,9 +110,12 @@ public class PopulationTest {
         + "WHERE city.district LIKE 'Michigan' "
         + "Group BY city.district;";
 
-    String result = "{District=Michigan, District Population=1870428}";
+    String expected = "{District=Michigan, District Population=1870428}";
 
-    assertEquals(result, databaseConnection.executeSQLStatement(stmt));
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.districtPopulation();
+    assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
@@ -106,8 +128,11 @@ public class PopulationTest {
         + "Group BY city.name;";
 
 
-    String result = "{Name=Edinburgh, City Population=450180}";
+    String expected = "{Name=Edinburgh, City Population=450180}";
 
-    assertEquals(result, databaseConnection.executeSQLStatement(stmt));
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.cityPopulation();
+    assertEquals(sqlManager.executeStatement(stmt), result);
   }
 }
