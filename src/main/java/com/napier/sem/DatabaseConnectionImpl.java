@@ -2,7 +2,6 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +33,9 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
      */
     @Override
     public String executeSQLStatement(String request) {
-        ResultSet result = null;
-        List<LinkedHashMap<String, Object>> resultList = new ArrayList<LinkedHashMap<String, Object>>();
-        LinkedHashMap<String, Object> row = null;
+        ResultSet result;
+        List<LinkedHashMap<String, Object>> resultList = new ArrayList<>();
+        LinkedHashMap<String, Object> row;
 
         try {
             Statement stmt = connection.createStatement();
@@ -46,10 +45,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             int columnCount = metaData.getColumnCount();
 
             while (result.next()) {
-                row = new LinkedHashMap<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    row.put(metaData.getColumnName(i), result.getObject(i));
-                }
+                row = getRow(result, metaData, columnCount);
                 resultList.add(row);
             }
         } catch (SQLException e){
@@ -57,6 +53,20 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             System.out.println(e.getMessage());
         }
 
+        StringBuilder stringBuilder = buildString(resultList);
+
+        return stringBuilder.toString();
+    }
+
+    private LinkedHashMap<String, Object> getRow(ResultSet result, ResultSetMetaData metaData, int columnCount) throws SQLException {
+        LinkedHashMap<String, Object> row = new LinkedHashMap<>();
+        for (int i = 1; i <= columnCount; i++) {
+            row.put(metaData.getColumnName(i), result.getObject(i));
+        }
+        return row;
+    }
+
+    private StringBuilder buildString(List<LinkedHashMap<String, Object>> resultList) {
         StringBuilder sb = new StringBuilder();
         for (Map<String, Object> stringObjectMap : resultList) {
             sb.append(stringObjectMap.toString());
@@ -64,8 +74,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
                 sb.append("\n");
             }
         }
-
-        return sb.toString();
+        return sb;
     }
 
     /**
