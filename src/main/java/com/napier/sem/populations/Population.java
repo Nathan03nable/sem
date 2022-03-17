@@ -1,12 +1,13 @@
 package com.napier.sem.populations;
 
 import com.napier.sem.IDatabaseConnection;
+import com.napier.sem.SqlManager;
 
 public class Population {
-  IDatabaseConnection databaseConnection;
+  SqlManager sqlManager;
 
-  public Population(IDatabaseConnection databaseConnection){
-    this.databaseConnection = databaseConnection;
+  public Population(SqlManager sqlManager){
+    this.sqlManager = sqlManager;
   }
 
   public String worldPopulation(){
@@ -17,7 +18,7 @@ public class Population {
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
         + "FROM country JOIN city ON CountryCode = Code;";
 
-    return databaseConnection.executeSQLStatement(stmt);
+    return sqlManager.executeStatement(stmt);
   }
 
   public String continentPopulation(){
@@ -31,7 +32,7 @@ public class Population {
             + "WHERE country.Continent LIKE 'Europe' "
             + "Group BY country.Continent;";
 
-    return databaseConnection.executeSQLStatement(stmt);
+    return sqlManager.executeStatement(stmt);
   }
 
   public String regionPopulation() {
@@ -45,7 +46,7 @@ public class Population {
             + "WHERE country.region LIKE 'Caribbean' "
             + "Group BY country.region;";
 
-    return databaseConnection.executeSQLStatement(stmt);
+    return sqlManager.executeStatement(stmt);
   }
 
   public String countryPopulation() {
@@ -59,7 +60,7 @@ public class Population {
             + "WHERE country.name LIKE 'United Kingdom' "
             + "Group BY country.code;";
 
-    return databaseConnection.executeSQLStatement(stmt);
+    return sqlManager.executeStatement(stmt);
   }
 
   public String districtPopulation() {
@@ -69,7 +70,7 @@ public class Population {
             + "WHERE city.district LIKE 'Michigan' "
             + "Group BY city.district;";
 
-    return databaseConnection.executeSQLStatement(stmt);
+    return sqlManager.executeStatement(stmt);
   }
 
   public String cityPopulation() {
@@ -79,6 +80,6 @@ public class Population {
             + "WHERE city.name LIKE 'Edinburgh' "
             + "Group BY city.name;";
 
-    return databaseConnection.executeSQLStatement(stmt);
+    return sqlManager.executeStatement(stmt);
   }
 }
