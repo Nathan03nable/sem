@@ -1,6 +1,5 @@
 package com.napier.sem.populations;
 
-import com.napier.sem.IDatabaseConnection;
 import com.napier.sem.SqlManager;
 
 public class Population {
