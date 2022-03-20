@@ -9,9 +9,9 @@ public class City {
     }
 
     public String worldCities(){
-        String stmt = "SELECT Name, country, district, population, capital "
+        String stmt = "SELECT Name, CountryCode, District, Population "
                 + "FROM city "
-                + "ORDER BY population DESC;";
+                + "ORDER BY Population DESC;";
         return databaseConnection.executeSQLStatement(stmt);
     }
 }
