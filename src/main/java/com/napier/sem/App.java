@@ -1,5 +1,6 @@
 package com.napier.sem;
 
+import com.napier.sem.cities.City;
 import com.napier.sem.populations.Population;
 
 public class App
@@ -8,6 +9,13 @@ public class App
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
         SqlManager sqlManager = new SqlManager(databaseConnection);
         Population population = new Population(sqlManager);
+        City city = new City(sqlManager);
+
+        System.out.println(city.worldCities());
+        System.out.println(city.continentCities());
+        System.out.println(city.regionCities());
+        System.out.println(city.countryCities());
+        System.out.println(city.districtCities());
 
         System.out.println(population.worldPopulation());
         System.out.println(population.continentPopulation());
