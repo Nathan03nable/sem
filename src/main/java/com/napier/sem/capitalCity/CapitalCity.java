@@ -18,4 +18,26 @@ public class CapitalCity {
 
             return sqlManager.executeStatement(stmt);
     }
+
+    //All the capital cities in a continent organised by largest population to smallest.
+    //Replace 'Africa' with country continent argument
+    public String continentCapitalCities(){
+        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
+        + "FROM city JOIN country ON (country.code=city.countrycode) "
+        + "WHERE country.capital = city.id AND country.continent = 'Africa' "
+        + "ORDER BY city.population DESC;";
+
+        return sqlManager.executeStatement(stmt);
+    }
+
+    //All the capital cities in a region organised by largest to smallest.
+    //Replace 'Middle East' with region argument
+    public String regionCapitalCities(){
+        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
+        + "FROM city JOIN country ON (country.code=city.countrycode) "
+        + "WHERE country.capital = city.id AND country.region = 'Middle East' "
+        + "ORDER BY city.population DESC;";
+
+        return sqlManager.executeStatement(stmt);
+    }
 }

@@ -27,6 +27,8 @@ public class App
         System.out.println(population.cityPopulation());
 
         System.out.println(capitalCity.worldCapitalCities());
+        System.out.println(capitalCity.continentCapitalCities());
+        System.out.println(capitalCity.regionCapitalCities());
 
         databaseConnection.disconnect();
     }
