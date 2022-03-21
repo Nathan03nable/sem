@@ -6,7 +6,8 @@ public class App
 {
     public static void main(String[] args) {
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
-        Population population = new Population(databaseConnection);
+        SqlManager sqlManager = new SqlManager(databaseConnection);
+        Population population = new Population(sqlManager);
 
         System.out.println(population.worldPopulation());
         System.out.println(population.continentPopulation());
