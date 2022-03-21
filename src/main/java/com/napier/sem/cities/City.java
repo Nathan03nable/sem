@@ -42,10 +42,10 @@ public class City {
     //All the cities in a country organised by largest population to smallest.
     //Replace 'Norway' with country argument
     public String countryCities(){
-        String stmt = "SELECT city.Name, country.Name AS Country, District, city.Population"
+        String stmt = "SELECT city.Name, country.Name AS Country, District, city.Population "
         + "FROM city "
         + "JOIN country ON Code = CountryCode "
-        + "WHERE country.Name = 'Norway'"
+        + "WHERE country.Name = 'Norway' "
         + "ORDER BY city.Population DESC;";
 
         return sqlManager.executeStatement(stmt);
