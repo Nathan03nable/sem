@@ -28,22 +28,23 @@ public class Country {
         return sqlManager.executeStatement(stmt);
     }
 
-    public String topNPopulatedCountries(int n){
+    public String topNPopulatedCountries(String limit){
         String stmt = "SELECT name, code, continent, region, population, capital FROM country ORDER BY population DESC LIMIT <nHolder>";
-        stmt = stmt.replace("<nHolder>", String.valueOf(n));
+        stmt = stmt.replace("<nHolder>", limit);
         return sqlManager.executeStatement(stmt);
     }
 
-    public String topNPopulatedContinentCountries(int n){
-        String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC LIMIT <nHolder>";
-        stmt = stmt.replace("<nHolder>", String.valueOf(n));
+    public String topNPopulatedContinentCountries(String limit){
+        //String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC LIMIT <nHolder>";
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC LIMIT %s", limit);
+        //stmt = stmt.replace("<nHolder>", limit);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    public String topNPopulatedRegionalCountries(int n){
+    public String topNPopulatedRegionalCountries(String limit){
         String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE region = 'Middle East' ORDER BY population DESC LIMIT <nHolder>";
-        stmt = stmt.replace("<nHolder>", String.valueOf(n));
+        stmt = stmt.replace("<nHolder>", limit);
         return sqlManager.executeStatement(stmt);
     }
 
