@@ -7,7 +7,14 @@ import com.napier.sem.populations.Population;
 public class App
 {
     public static void main(String[] args) {
-        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
+        String location;
+        if(args.length < 1){
+            location = "localhost:33060";
+        }else{
+            location = args[0];
+        }
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
+
         SqlManager sqlManager = new SqlManager(databaseConnection);
         Population population = new Population(sqlManager);
         City city = new City(sqlManager);

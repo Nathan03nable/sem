@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseConnectionImpl implements IDatabaseConnection {
 
@@ -15,15 +14,17 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
      * Connection to MySQL database.
      */
     private Connection connection = null;
+    private String location = "";
 
-    private DatabaseConnectionImpl(){
+    private DatabaseConnectionImpl(String location){
         listHelperFunctions = new ListHelperFunctions();
+        this.location = location;
         this.connect();
     }
 
-    public static IDatabaseConnection getInstance(){
+    public static IDatabaseConnection getInstance(String location){
         if (instance == null){
-            instance = new DatabaseConnectionImpl();
+            instance = new DatabaseConnectionImpl(location);
         }
         return instance;
     }
@@ -94,7 +95,9 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             Thread.sleep(30000);
             // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
             // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
-            connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+            connection = DriverManager.getConnection("jdbc:mysql://" + location
+                            + "/employees?allowPublicKeyRetrieval=true&useSSL=false",
+                    "root", "example");
             System.out.println("Successfully connected");
             return true;
         }
