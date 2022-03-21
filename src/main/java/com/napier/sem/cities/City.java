@@ -62,7 +62,3 @@ public class City {
         return sqlManager.executeStatement(stmt);
     }
 }
-
-
-
-
