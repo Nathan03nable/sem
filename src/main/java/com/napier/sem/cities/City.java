@@ -1,18 +1,19 @@
 package com.napier.sem.cities;
-import com.napier.sem.IDatabaseConnection;
+import com.napier.sem.SqlManager;
 
 public class City {
-    IDatabaseConnection databaseConnection;
+    SqlManager sqlManager;
 
-    public City(IDatabaseConnection databaseConnection) {
-        this.databaseConnection = databaseConnection;
+    public City(SqlManager sqlManager) {
+        this.sqlManager = sqlManager;
     }
 
     public String worldCities(){
         String stmt = "SELECT Name, CountryCode, District, Population "
                 + "FROM city "
                 + "ORDER BY Population DESC;";
-        return databaseConnection.executeSQLStatement(stmt);
+
+        return sqlManager.executeStatement(stmt);
     }
 }
 
