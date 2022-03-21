@@ -12,6 +12,11 @@ public class App
         City city = new City(sqlManager);
 
         System.out.println(city.worldCities());
+        System.out.println(city.continentCities());
+        System.out.println(city.regionCities());
+        System.out.println(city.countryCities());
+        System.out.println(city.districtCities());
+
         System.out.println(population.worldPopulation());
         System.out.println(population.continentPopulation());
         System.out.println(population.regionPopulation());
