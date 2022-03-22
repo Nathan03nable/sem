@@ -9,6 +9,7 @@ import java.util.Map;
 public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private static DatabaseConnectionImpl instance;
+    private final ListHelperFunctions listHelperFunctions;
     static final int RETRIES = 10;
     /**
      * Connection to MySQL database.
@@ -16,6 +17,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     private Connection connection = null;
 
     private DatabaseConnectionImpl(){
+        listHelperFunctions = new ListHelperFunctions();
         this.connect();
     }
 
@@ -45,7 +47,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             int columnCount = metaData.getColumnCount();
 
             while (result.next()) {
-                row = getRow(result, metaData, columnCount);
+                row = listHelperFunctions.getRow(result, metaData, columnCount);
                 resultList.add(row);
             }
         } catch (SQLException e){
@@ -53,28 +55,9 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             System.out.println(e.getMessage());
         }
 
-        StringBuilder stringBuilder = buildString(resultList);
+        StringBuilder stringBuilder = listHelperFunctions.buildString(resultList);
 
         return stringBuilder.toString();
-    }
-
-    private LinkedHashMap<String, Object> getRow(ResultSet result, ResultSetMetaData metaData, int columnCount) throws SQLException {
-        LinkedHashMap<String, Object> row = new LinkedHashMap<>();
-        for (int i = 1; i <= columnCount; i++) {
-            row.put(metaData.getColumnName(i), result.getObject(i));
-        }
-        return row;
-    }
-
-    private StringBuilder buildString(List<LinkedHashMap<String, Object>> resultList) {
-        StringBuilder sb = new StringBuilder();
-        for (Map<String, Object> stringObjectMap : resultList) {
-            sb.append(stringObjectMap.toString());
-            if(stringObjectMap != resultList.get(resultList.size() - 1)) {
-                sb.append("\n");
-            }
-        }
-        return sb;
     }
 
     /**
@@ -146,5 +129,4 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             }
         }
     }
-
 }
