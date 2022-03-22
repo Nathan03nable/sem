@@ -40,4 +40,5 @@ public class CapitalCity {
 
         return sqlManager.executeStatement(stmt);
     }
+
 }
