@@ -20,64 +20,105 @@ public class Population {
     return sqlManager.executeStatement(stmt);
   }
 
-  public String continentPopulation(){
-    String stmt = "SELECT country.Continent,"
-            + "SUM(DISTINCT(country.population)) AS 'Continent Population',"
-            + "sum(city.population) AS 'Cities Population',"
-            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
-            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
-            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+  public String continentPopulation(String continent){
+    String stmt = String.format(
+        "SELECT country.Continent,SUM(DISTINCT(country.population)) AS 'Continent Population',"
+            + "sum(city.population) AS 'Cities Population', "
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%%', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%%' "
             + "FROM country JOIN city ON CountryCode = Code "
-            + "WHERE country.Continent LIKE 'Europe' "
-            + "Group BY country.Continent;";
+            + "WHERE country.Continent LIKE %s Group BY country.Continent;", continent);
 
     return sqlManager.executeStatement(stmt);
   }
 
-  public String regionPopulation() {
-    String stmt = "SELECT country.region, "
+  public String regionPopulation(String region) {
+    String stmt = String.format(
+        "SELECT country.region, "
+            + "SUM(DISTINCT(country.population)) AS 'Region Population', "
+            + "sum(city.population) AS 'Cities Population', "
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%%', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%%' "
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE country.region LIKE %s Group BY country.region;", region);
+
+    return sqlManager.executeStatement(stmt);
+  }
+
+  public String countryPopulation(String country) {
+    String stmt = String.format(
+        "SELECT country.name, "
             + "SUM(DISTINCT(country.population)) AS 'Region Population',"
             + "sum(city.population) AS 'Cities Population',"
-            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%%',"
             + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
-            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%%'"
             + "FROM country JOIN city ON CountryCode = Code "
-            + "WHERE country.region LIKE 'Caribbean' "
-            + "Group BY country.region;";
+            + "WHERE country.name LIKE %s"
+            + "Group BY country.code;", country);
 
     return sqlManager.executeStatement(stmt);
   }
 
-  public String countryPopulation() {
-    String stmt = "SELECT country.name, "
-            + "SUM(DISTINCT(country.population)) AS 'Region Population',"
-            + "sum(city.population) AS 'Cities Population',"
-            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
-            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
-            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
-            + "FROM country JOIN city ON CountryCode = Code "
-            + "WHERE country.name LIKE 'United Kingdom' "
-            + "Group BY country.code;";
-
-    return sqlManager.executeStatement(stmt);
-  }
-
-  public String districtPopulation() {
-    String stmt = "SELECT city.district, "
+  public String districtPopulation(String district) {
+    String stmt = String.format(
+        "SELECT city.district, "
             + "SUM(DISTINCT(city.population)) AS 'District Population' "
             + "FROM city "
-            + "WHERE city.district LIKE 'Michigan' "
-            + "Group BY city.district;";
+            + "WHERE city.district LIKE %s "
+            + "Group BY city.district;", district);
 
     return sqlManager.executeStatement(stmt);
   }
 
-  public String cityPopulation() {
-    String stmt = "SELECT city.name, "
+  public String cityPopulation(String city) {
+    String stmt = String.format(
+        "SELECT city.name, "
             + "SUM(DISTINCT(city.population)) AS 'City Population' "
             + "FROM city "
-            + "WHERE city.name LIKE 'Edinburgh' "
-            + "Group BY city.name;";
+            + "WHERE city.name LIKE %s "
+            + "Group BY city.name;", city);
+
+    return sqlManager.executeStatement(stmt);
+  }
+
+  public String everyContinentPopulation(){
+    String stmt = "SELECT country.Continent,"
+        + "SUM(DISTINCT(country.population)) AS 'Continent Population',"
+        + "sum(city.population) AS 'Cities Population',"
+        + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+        + "FROM country JOIN city ON CountryCode = Code "
+        + "Group BY country.Continent;";
+
+    return sqlManager.executeStatement(stmt);
+  }
+
+  public String everyRegionPopulation() {
+    String stmt = "SELECT country.region, "
+        + "SUM(DISTINCT(country.population)) AS 'Region Population',"
+        + "sum(city.population) AS 'Cities Population',"
+        + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+        + "FROM country JOIN city ON CountryCode = Code "
+        + "Group BY country.region;";
+
+    return sqlManager.executeStatement(stmt);
+  }
+
+  public String everyCountryPopulation() {
+    String stmt = "SELECT country.name, "
+        + "SUM(DISTINCT(country.population)) AS 'Region Population',"
+        + "sum(city.population) AS 'Cities Population',"
+        + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+        + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
+        + "FROM country JOIN city ON CountryCode = Code "
+        + "Group BY country.code;";
 
     return sqlManager.executeStatement(stmt);
   }
