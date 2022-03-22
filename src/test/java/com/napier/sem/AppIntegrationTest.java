@@ -21,7 +21,7 @@ public class AppIntegrationTest
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
         String statement = "Select Name from city where id='1';";
         String response = databaseConnection.executeSQLStatement(statement);
-        assertEquals(response, "Kabul");
+        assertEquals("{Name=Kabul}", response);
     }
 
 }
