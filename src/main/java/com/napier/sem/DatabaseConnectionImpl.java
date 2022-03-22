@@ -2,27 +2,29 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private static DatabaseConnectionImpl instance;
+    private final ListHelperFunctions listHelperFunctions;
     static final int RETRIES = 10;
     /**
      * Connection to MySQL database.
      */
     private Connection connection = null;
+    private String location = "";
 
-    private DatabaseConnectionImpl(){
+    private DatabaseConnectionImpl(String location){
+        listHelperFunctions = new ListHelperFunctions();
+        this.location = location;
         this.connect();
     }
 
-    public static IDatabaseConnection getInstance(){
+    public static IDatabaseConnection getInstance(String location){
         if (instance == null){
-            instance = new DatabaseConnectionImpl();
+            instance = new DatabaseConnectionImpl(location);
         }
         return instance;
     }
@@ -34,9 +36,9 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
      */
     @Override
     public String executeSQLStatement(String request) {
-        ResultSet result = null;
-        List<LinkedHashMap<String, Object>> resultList = new ArrayList<LinkedHashMap<String, Object>>();
-        LinkedHashMap<String, Object> row = null;
+        ResultSet result;
+        List<LinkedHashMap<String, Object>> resultList = new ArrayList<>();
+        LinkedHashMap<String, Object> row;
 
         try {
             Statement stmt = connection.createStatement();
@@ -46,10 +48,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             int columnCount = metaData.getColumnCount();
 
             while (result.next()) {
-                row = new LinkedHashMap<>();
-                for (int i = 1; i <= columnCount; i++) {
-                    row.put(metaData.getColumnName(i), result.getObject(i));
-                }
+                row = listHelperFunctions.getRow(result, metaData, columnCount);
                 resultList.add(row);
             }
         } catch (SQLException e){
@@ -57,15 +56,9 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             System.out.println(e.getMessage());
         }
 
-        StringBuilder sb = new StringBuilder();
-        for (Map<String, Object> stringObjectMap : resultList) {
-            sb.append(stringObjectMap.toString());
-            if(stringObjectMap != resultList.get(resultList.size() - 1)) {
-                sb.append("\n");
-            }
-        }
+        StringBuilder stringBuilder = listHelperFunctions.buildString(resultList);
 
-        return sb.toString();
+        return stringBuilder.toString();
     }
 
     /**
@@ -97,12 +90,18 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private boolean tryToConnect(int i) {
         System.out.println("Connecting to database...");
+
         try
         {
             Thread.sleep(30000);
+            System.out.println("jdbc:mysql://" + location
+                    + "/world?allowPublicKeyRetrieval=true&useSSL=false");
             // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
             // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
-            connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+            // Original: connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+            connection = DriverManager.getConnection("jdbc:mysql://" + location
+                            + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                    "root", "example");
             System.out.println("Successfully connected");
             return true;
         }
@@ -115,6 +114,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         {
             System.out.println("Thread interrupted? Should not happen.");
         }
+
         return false;
     }
 
@@ -137,5 +137,4 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             }
         }
     }
-
 }

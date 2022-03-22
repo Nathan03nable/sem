@@ -1,19 +1,31 @@
 package com.napier.sem;
 
+import com.napier.sem.cities.CapitalCity;
+import com.napier.sem.cities.City;
+import com.napier.sem.countries.Country;
 import com.napier.sem.populations.Population;
 
 public class App
 {
+    static final int limit = 5;
+  
     public static void main(String[] args) {
-        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
-        Population population = new Population(databaseConnection);
+        String location;
+        if(args.length < 1){
+            location = "localhost:33060";
+        }else{
+            location = args[0];
+        }
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
 
-        System.out.println(population.worldPopulation());
-        System.out.println(population.continentPopulation());
-        System.out.println(population.regionPopulation());
-        System.out.println(population.countryPopulation());
-        System.out.println(population.districtPopulation());
-        System.out.println(population.cityPopulation());
+        SqlManager sqlManager = new SqlManager(databaseConnection);
+
+        CapitalCity capitalCity = new CapitalCity(sqlManager);
+      
+        System.out.println(capitalCity.worldCapitalCities());
+        System.out.println(capitalCity.continentCapitalCities());
+        System.out.println(capitalCity.regionCapitalCities());
+
 
         databaseConnection.disconnect();
     }
