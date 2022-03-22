@@ -1,17 +1,33 @@
 package com.napier.sem;
 
+import com.napier.sem.cities.CapitalCity;
+import com.napier.sem.populations.Population;
+
 public class App
 {
+    //static final int limit = 5;
+    private static final String CONTINENT = "'Europe'";
+    private static final String REGION = "'Caribbean'";
+    private static final String COUNTRY = "'Ukraine'";
+    private static final String DISTRICT = "'Kabol'";
+    private static final String CITY = "'Edinburgh'";
+
     public static void main(String[] args) {
+        String location;
+        if(args.length < 1){
+            location = "localhost:33060";
+        }else{
+            location = args[0];
+        }
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
 
-        IDatabaseConnection db = DatabaseConnectionImpl.getInstance();
-        String stmt = "Select * from city where name like 'V%' order by name desc";
-        ReportLanguageImpl languageReport = new ReportLanguageImpl(db);
-        System.out.println(languageReport.generateReport(stmt));
+        SqlManager sqlManager = new SqlManager(databaseConnection);
 
-        String stmt2 = "Select * from city where name like 'Y%' order by name desc";
-        System.out.println(languageReport.generateReport(stmt2));
+        Population population = new Population(sqlManager);
 
-        db.disconnect();
-    }
+        System.out.println(population.districtPopulation(DISTRICT));
+        System.out.println(population.cityPopulation(CITY));
+        System.out.println(population.countryPopulation(COUNTRY));
+
+        databaseConnection.disconnect();
 }
