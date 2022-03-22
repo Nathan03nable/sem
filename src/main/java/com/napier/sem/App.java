@@ -7,7 +7,8 @@ import com.napier.sem.populations.Population;
 
 public class App
 {
-    static final int limit = 5;
+    //static final int limit = 5;
+    static final String limit = "5";
   
     public static void main(String[] args) {
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance();
@@ -33,9 +34,10 @@ public class App
         System.out.println(country.worldCountries());
         System.out.println(country.continentCountries());
         System.out.println(country.regionCountries());
-        System.out.println(country.topNPopulatedCountries(String.valueOf(limit)));
-        System.out.println(country.topNPopulatedContinentCountries(String.valueOf(limit)));
-        System.out.println(country.topNPopulatedRegionalCountries(String.valueOf(limit)));
+        System.out.println(country.topNPopulatedCountries((limit)));
+        System.out.println(country.topNPopulatedContinentCountries((limit)));
+        System.out.println(country.topNPopulatedRegionalCountries((limit)));
+        //System.out.println(country.topNPopulatedRegionalCountries(String.valueOf(limit)));
 
         System.out.println(capitalCity.worldCapitalCities());
         System.out.println(capitalCity.continentCapitalCities());
