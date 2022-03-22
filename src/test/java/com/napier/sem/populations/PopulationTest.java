@@ -16,6 +16,12 @@ public class PopulationTest {
   @Mock
   private SqlManager sqlManager;
 
+  private static final String CONTINENT = "'Europe'";
+  private static final String REGION = "'Caribbean'";
+  private static final String COUNTRY = "'Ukraine'";
+  private static final String DISTRICT = "'Kabol'";
+  private static final String CITY = "'Edinburgh'";
+
   @BeforeEach
   public void init(){
     MockitoAnnotations.initMocks(this);
@@ -43,6 +49,105 @@ public class PopulationTest {
   @Test
   void continentPopulationTest()
   {
+    String stmt = String.format(
+        "SELECT country.Continent,SUM(DISTINCT(country.population)) AS 'Continent Population',"
+            + "sum(city.population) AS 'Cities Population', "
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%%', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%%' "
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE country.Continent LIKE %s Group BY country.Continent;", CONTINENT);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.continentPopulation(CONTINENT);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void regionPopulationTest()
+  {
+    String stmt = String.format(
+        "SELECT country.region, "
+            + "SUM(DISTINCT(country.population)) AS 'Region Population', "
+            + "sum(city.population) AS 'Cities Population', "
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%%', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population', "
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%%' "
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE country.region LIKE %s Group BY country.region;", REGION);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.regionPopulation(REGION);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void countryPopulationTest()
+  {
+    String stmt = String.format(
+        "SELECT country.name, "
+            + "SUM(DISTINCT(country.population)) AS 'Region Population',"
+            + "sum(city.population) AS 'Cities Population',"
+            + "(sum(city.population) / SUM(DISTINCT(country.population))) * 100 AS 'Cities Population%%',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
+            + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%%'"
+            + "FROM country JOIN city ON CountryCode = Code "
+            + "WHERE country.name LIKE %s"
+            + "Group BY country.code;", COUNTRY);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.countryPopulation(COUNTRY);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void districtPopulationTest()
+  {
+    String stmt = String.format(
+        "SELECT city.district, "
+            + "SUM(DISTINCT(city.population)) AS 'District Population' "
+            + "FROM city "
+            + "WHERE city.district LIKE %s "
+            + "Group BY city.district;", DISTRICT);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.districtPopulation(DISTRICT);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void cityPopulationTest()
+  {
+    String stmt = String.format(
+        "SELECT city.name, "
+            + "SUM(DISTINCT(city.population)) AS 'City Population' "
+            + "FROM city "
+            + "WHERE city.name LIKE %s "
+            + "Group BY city.name;", CITY);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.cityPopulation(CITY);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void everyContinentPopulationTest()
+  {
     String stmt = "SELECT country.Continent,"
         + "SUM(DISTINCT(country.population)) AS 'Continent Population',"
         + "sum(city.population) AS 'Cities Population',"
@@ -50,19 +155,18 @@ public class PopulationTest {
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
         + "FROM country JOIN city ON CountryCode = Code "
-        + "WHERE country.Continent LIKE 'Europe' "
         + "Group BY country.Continent;";
 
     String expected = "String returned";
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.continentPopulation();
+    String result = subject.everyContinentPopulation();
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
-  void regionPopulationTest()
+  void everyRegionPopulationTest()
   {
     String stmt = "SELECT country.region, "
         + "SUM(DISTINCT(country.population)) AS 'Region Population',"
@@ -71,19 +175,18 @@ public class PopulationTest {
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
         + "FROM country JOIN city ON CountryCode = Code "
-        + "WHERE country.region LIKE 'Caribbean' "
         + "Group BY country.region;";
 
     String expected = "String returned";
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.regionPopulation();
+    String result = subject.everyRegionPopulation();
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
   @Test
-  void countryPopulationTest()
+  void everyCountryPopulationTest()
   {
     String stmt = "SELECT country.name, "
         + "SUM(DISTINCT(country.population)) AS 'Region Population',"
@@ -92,48 +195,14 @@ public class PopulationTest {
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) AS 'Rural Population',"
         + "(SUM(DISTINCT(country.population)) - sum(city.population)) / SUM(DISTINCT(country.population)) * 100 AS 'Rural Population%'"
         + "FROM country JOIN city ON CountryCode = Code "
-        + "WHERE country.name LIKE 'United Kingdom' "
         + "Group BY country.code;";
 
     String expected = "String returned";
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.countryPopulation();
+    String result = subject.everyCountryPopulation();
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
-  @Test
-  void districtPopulationTest()
-  {
-    String stmt = "SELECT city.district, "
-        + "SUM(DISTINCT(city.population)) AS 'District Population' "
-        + "FROM city "
-        + "WHERE city.district LIKE 'Michigan' "
-        + "Group BY city.district;";
-
-    String expected = "String returned";
-
-    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
-
-    String result = subject.districtPopulation();
-    assertEquals(sqlManager.executeStatement(stmt), result);
-  }
-
-  @Test
-  void cityPopulationTest()
-  {
-    String stmt = "SELECT city.name, "
-        + "SUM(DISTINCT(city.population)) AS 'City Population' "
-        + "FROM city "
-        + "WHERE city.name LIKE 'Edinburgh' "
-        + "Group BY city.name;";
-
-    String expected = "String returned";
-
-    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
-
-    String result = subject.cityPopulation();
-    assertEquals(sqlManager.executeStatement(stmt), result);
-  }
 }
