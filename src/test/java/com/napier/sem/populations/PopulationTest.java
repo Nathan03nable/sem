@@ -16,6 +16,12 @@ public class PopulationTest {
   @Mock
   private SqlManager sqlManager;
 
+  private static final String CONTINENT = "Africa";
+  private static final String REGION = "Caribbean";
+  private static final String COUNTRY = "Ukraine";
+  private static final String DISTRICT = "Kabol";
+  private static final String CITY = "Edinburgh";
+
   @BeforeEach
   public void init(){
     MockitoAnnotations.initMocks(this);
@@ -57,7 +63,7 @@ public class PopulationTest {
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.continentPopulation();
+    String result = subject.continentPopulation(CONTINENT);
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
@@ -78,7 +84,7 @@ public class PopulationTest {
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.regionPopulation();
+    String result = subject.regionPopulation(REGION);
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
@@ -99,7 +105,7 @@ public class PopulationTest {
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.countryPopulation();
+    String result = subject.countryPopulation(COUNTRY);
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
@@ -116,7 +122,7 @@ public class PopulationTest {
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.districtPopulation();
+    String result = subject.districtPopulation(DISTRICT);
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 
@@ -133,7 +139,7 @@ public class PopulationTest {
 
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-    String result = subject.cityPopulation();
+    String result = subject.cityPopulation(CITY);
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
 }
