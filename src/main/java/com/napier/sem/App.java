@@ -30,5 +30,4 @@ public class App
         System.out.println(population.countryPopulation(COUNTRY));
 
         databaseConnection.disconnect();
-    }
 }
