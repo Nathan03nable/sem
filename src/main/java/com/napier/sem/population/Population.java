@@ -1,4 +1,4 @@
-package com.napier.sem.populations;
+package com.napier.sem.population;
 
 import com.napier.sem.SqlManager;
 
