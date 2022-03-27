@@ -1,6 +1,7 @@
-package com.napier.sem.cities;
+package com.napier.sem.unit_tests.cities;
 
 import com.napier.sem.SqlManager;
+import com.napier.sem.cities.CapitalCity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

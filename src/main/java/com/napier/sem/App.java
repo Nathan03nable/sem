@@ -1,7 +1,6 @@
 package com.napier.sem;
 
-import com.napier.sem.cities.CapitalCity;
-import com.napier.sem.populations.Population;
+import com.napier.sem.population.Population;
 
 public class App
 {

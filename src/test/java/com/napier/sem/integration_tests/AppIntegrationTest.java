@@ -1,10 +1,8 @@
-package com.napier.sem;
+package com.napier.sem.integration_tests;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.sql.SQLSyntaxErrorException;
-import org.junit.After;
-import org.junit.Before;
+import com.napier.sem.App;
+import com.napier.sem.DatabaseConnectionImpl;
+import com.napier.sem.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

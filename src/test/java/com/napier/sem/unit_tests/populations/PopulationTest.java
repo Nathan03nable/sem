@@ -1,9 +1,9 @@
-package com.napier.sem.populations;
+package com.napier.sem.unit_tests.populations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.napier.sem.population.Population;
 import com.napier.sem.SqlManager;
-import com.napier.sem.populations.Population;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
