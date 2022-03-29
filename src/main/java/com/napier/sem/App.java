@@ -1,5 +1,6 @@
 package com.napier.sem;
 
+import com.napier.sem.languages.Language;
 import com.napier.sem.population.Population;
 import com.napier.sem.countries.Country;
 import java.util.logging.Level;
@@ -12,7 +13,7 @@ public class App
     private static final String DISTRICT = "'Kabol'";
     private static final String CITY = "'Edinburgh'";
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
-
+    private static final String WORLD_POPULATION = "6078547450";
     public static void main(String[] args) {
         String location;
         if(args.length < 1){
@@ -28,17 +29,9 @@ public class App
 
         Country country = new Country(sqlManager);
 
+        Language language = new Language(sqlManager);
         if(LOGGER.isLoggable(Level.INFO)){
-            LOGGER.info(population.districtPopulation(DISTRICT));
-            LOGGER.info(population.cityPopulation(CITY));
-            LOGGER.info(population.countryPopulation(COUNTRY));
-
-            LOGGER.info(country.worldCountries());
-            LOGGER.info(country.continentCountries());
-            LOGGER.info(country.regionCountries());
-            LOGGER.info(country.topNPopulatedCountries(limit));
-            LOGGER.info(country.topNPopulatedContinentCountries(limit));
-            LOGGER.info(country.topNPopulatedRegionalCountries(limit));
+            LOGGER.info(language.languagesReport(WORLD_POPULATION));
         }
         databaseConnection.disconnect();
     }
