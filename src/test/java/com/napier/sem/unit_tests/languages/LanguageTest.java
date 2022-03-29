@@ -3,7 +3,6 @@ package com.napier.sem.unit_tests.languages;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.napier.sem.SqlManager;
-import com.napier.sem.countries.Country;
 import com.napier.sem.languages.Language;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
