@@ -58,10 +58,10 @@ class ListHelperFunctionsTest {
 
   @Test
   void buildStringTest() {
-    LinkedHashMap<String, Object> singleResult = new LinkedHashMap<>();
+    Map<String, Object> singleResult = new LinkedHashMap<>();
     singleResult.put("Hello", "World");
 
-    List<LinkedHashMap<String, Object>> resultList = new ArrayList<>();
+    List<Map<String, Object>> resultList = new ArrayList<>();
     resultList.add(singleResult);
     resultList.add(singleResult);
     resultList.add(singleResult);

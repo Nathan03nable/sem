@@ -4,8 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DatabaseConnectionImpl implements IDatabaseConnection {
@@ -17,7 +15,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
      * Connection to MySQL database.
      */
     private Connection connection = null;
-    private String location = "";
+    private final String location;
 
     private DatabaseConnectionImpl(String location){
         listHelperFunctions = new ListHelperFunctions();
@@ -40,8 +38,8 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     @Override
     public String executeSQLStatement(String request) {
         ResultSet result;
-        List<LinkedHashMap<String, Object>> resultList = new ArrayList<>();
-        LinkedHashMap<String, Object> row;
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        Map<String, Object> row;
 
         try {
             Statement stmt = connection.createStatement();

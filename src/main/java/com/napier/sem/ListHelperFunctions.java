@@ -18,7 +18,7 @@ public class ListHelperFunctions {
         return row;
     }
 
-    public StringBuilder buildString(List<LinkedHashMap<String, Object>> resultList) {
+    public StringBuilder buildString(List<Map<String, Object>> resultList) {
         StringBuilder sb = new StringBuilder();
         for (Map<String, Object> stringObjectMap : resultList) {
             sb.append(stringObjectMap.toString());
