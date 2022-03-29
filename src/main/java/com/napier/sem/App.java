@@ -6,8 +6,6 @@ import com.napier.sem.countries.Country;
 public class App
 {
     static final String limit = "5";
-    private static final String CONTINENT = "'Europe'";
-    private static final String REGION = "'Caribbean'";
     private static final String COUNTRY = "'Ukraine'";
     private static final String DISTRICT = "'Kabol'";
     private static final String CITY = "'Edinburgh'";

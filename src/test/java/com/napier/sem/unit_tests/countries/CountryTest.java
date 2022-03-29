@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class CountryTest {
+class CountryTest {
 
     String limit = "5";
     private Country subject;
@@ -18,7 +18,7 @@ public class CountryTest {
     private SqlManager sqlManager;
 
     @BeforeEach
-    public void init() {
+    void init() {
         MockitoAnnotations.initMocks(this);
         subject = new Country(sqlManager);
     }
@@ -32,7 +32,7 @@ public class CountryTest {
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
         String result = subject.worldCountries();
-        assertEquals(sqlManager.executeStatement(stmt), result);
+        assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CountryTest {
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
         String result = subject.continentCountries();
-        assertEquals(sqlManager.executeStatement(stmt), result);
+        assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class CountryTest {
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
         String result = subject.regionCountries();
-        assertEquals(sqlManager.executeStatement(stmt), result);
+        assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
@@ -68,7 +68,7 @@ public class CountryTest {
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
         String result = subject.topNPopulatedCountries(limit);
-        assertEquals(sqlManager.executeStatement(stmt), result);
+        assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
@@ -80,7 +80,7 @@ public class CountryTest {
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
         String result = subject.topNPopulatedContinentCountries(limit);
-        assertEquals(sqlManager.executeStatement(stmt), result);
+        assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
@@ -92,6 +92,6 @@ public class CountryTest {
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
         String result = subject.topNPopulatedRegionalCountries(limit);
-        assertEquals(sqlManager.executeStatement(stmt), result);
+        assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 }
