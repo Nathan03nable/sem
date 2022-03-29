@@ -10,9 +10,9 @@ public class City {
 
     //All the cities in the world organised by largest population to smallest.
     public String worldCities(){
-        String stmt = "SELECT city.Name AS 'Name', country.Name AS 'Country', District, city.Population "
-                + "FROM city JOIN country ON country.Code = city.CountryCode "
-                + "ORDER BY Population DESC;";
+        String stmt = "SELECT city.Name AS 'City Name', country.Name AS 'Country Name', District, city.Population "
+            + "FROM city JOIN country ON country.Code = city.CountryCode "
+            + "ORDER BY Population DESC;";
 
         return sqlManager.executeStatement(stmt);
     }

@@ -12,11 +12,7 @@ public class ListHelperFunctions {
     public LinkedHashMap<String, Object> getRow(ResultSet result, ResultSetMetaData metaData, int columnCount) throws SQLException {
         LinkedHashMap<String, Object> row = new LinkedHashMap<>();
         for (int i = 1; i <= columnCount; i++) {
-            String columnName = metaData.getColumnName(i);
-            if(row.containsKey(columnName)){
-                row.put("Country", result.getObject(i));
-            }
-            row.put(columnName, result.getObject(i));
+            row.put(metaData.getColumnLabel(i), result.getObject(i));
         }
         return row;
     }
