@@ -40,8 +40,6 @@ public class App
             LOGGER.info(country.topNPopulatedContinentCountries(limit));
             LOGGER.info(country.topNPopulatedRegionalCountries(limit));
         }
-
-
         databaseConnection.disconnect();
     }
 }
