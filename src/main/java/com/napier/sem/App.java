@@ -2,6 +2,8 @@ package com.napier.sem;
 
 import com.napier.sem.population.Population;
 import com.napier.sem.countries.Country;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class App
 {
@@ -9,6 +11,7 @@ public class App
     private static final String COUNTRY = "'Ukraine'";
     private static final String DISTRICT = "'Kabol'";
     private static final String CITY = "'Edinburgh'";
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
         String location;
@@ -25,16 +28,19 @@ public class App
 
         Country country = new Country(sqlManager);
 
-        System.out.println(population.districtPopulation(DISTRICT));
-        System.out.println(population.cityPopulation(CITY));
-        System.out.println(population.countryPopulation(COUNTRY));
+        if(LOGGER.isLoggable(Level.INFO)){
+            LOGGER.info(population.districtPopulation(DISTRICT));
+            LOGGER.info(population.cityPopulation(CITY));
+            LOGGER.info(population.countryPopulation(COUNTRY));
 
-        System.out.println(country.worldCountries());
-        System.out.println(country.continentCountries());
-        System.out.println(country.regionCountries());
-        System.out.println(country.topNPopulatedCountries(limit));
-        System.out.println(country.topNPopulatedContinentCountries(limit));
-        System.out.println(country.topNPopulatedRegionalCountries(limit));
+            LOGGER.info(country.worldCountries());
+            LOGGER.info(country.continentCountries());
+            LOGGER.info(country.regionCountries());
+            LOGGER.info(country.topNPopulatedCountries(limit));
+            LOGGER.info(country.topNPopulatedContinentCountries(limit));
+            LOGGER.info(country.topNPopulatedRegionalCountries(limit));
+        }
+
 
         databaseConnection.disconnect();
     }
