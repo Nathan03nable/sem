@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class AppIntegrationTest
+class AppIntegrationTest
 {
     static App subject;
 
@@ -26,7 +26,7 @@ public class AppIntegrationTest
     void testExecuteSQLStatement (){
         String statement = "Select Name from city where id='1';";
         String response = databaseConnection.executeSQLStatement(statement);
-        assertEquals("{Name=Kabul}", response);
+        assertEquals("{Name=Kabul}", response, "Should return Kabul");
     }
 
     @Test
@@ -34,7 +34,7 @@ public class AppIntegrationTest
         String invalidStatement = "Select;";
 
         String result = databaseConnection.executeSQLStatement(invalidStatement);
-        assertEquals("", result);
+        assertEquals("", result, "Should return an empty string");
     }
 
     @Test
