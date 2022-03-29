@@ -95,7 +95,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
 
         try
         {
-            Thread.sleep(0);
+            Thread.sleep(30000);
             LOGGER.info("jdbc:mysql://" + location
                     + "/world?allowPublicKeyRetrieval=true&useSSL=false");
             // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
