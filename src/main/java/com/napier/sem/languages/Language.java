@@ -10,7 +10,7 @@ public class Language {
   }
 
   public String languagesReport(String worldPopulation){
-    String stmt = String.format("SELECT "
+    String stmt = String.format("SELECT countrylanguage.language, "
         + "CASE "
         + "WHEN countrylanguage.Language like 'Chinese' THEN SUM(country.population) "
         + "WHEN countrylanguage.Language like 'English' THEN SUM(country.population) "
