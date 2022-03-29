@@ -11,7 +11,7 @@ public class CapitalCity {
 
     //All the capital cities in the world organised by largest population to smallest
     public String worldCapitalCities(){
-        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
+        String stmt = "SELECT city.Name AS City, District, city.Population "
         + "FROM city JOIN country ON (country.code=city.countrycode) "
         + "WHERE country.capital = city.id "
         + "ORDER BY city.population DESC;";
@@ -22,9 +22,9 @@ public class CapitalCity {
     //All the capital cities in a continent organised by largest population to smallest.
     //Replace 'Africa' with country continent argument
     public String continentCapitalCities(){
-        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
-        + "FROM city JOIN country ON (country.code=city.countrycode) "
-        + "WHERE country.capital = city.id AND country.continent = 'Africa' "
+        String stmt = "SELECT city.name AS 'City', country.name AS 'Country', District, city.Population "
+        + "FROM country JOIN city ON (country.code=city.countrycode) "
+        + "WHERE country.capital = city.id AND country.continent = 'Europe' "
         + "ORDER BY city.population DESC;";
 
         return sqlManager.executeStatement(stmt);

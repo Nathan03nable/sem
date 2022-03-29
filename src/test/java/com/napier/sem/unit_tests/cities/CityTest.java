@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CityTest {
 
   private City subject;
+  String limit = "5";
+  String continent = "Middle East";
+  String region = "Europe";
+  String country = "France";
 
   @Mock
   private SqlManager sqlManager;
@@ -101,4 +105,64 @@ public class CityTest {
     String result = subject.districtCities();
     assertEquals(sqlManager.executeStatement(stmt), result);
   }
+
+  @Test
+  void topNPopulatedCitiesTest() {
+    String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
+            + "ORDER BY city.population DESC %s", limit);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.topNPopulatedCities(limit);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void topNPopulatedCitiesTesInAContinent() {
+    String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population, "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
+            + "WHERE country.Continent = 'Africa' "
+            + "ORDER BY city.population DESC %s", limit);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.topNPopulatedCitiesInAContinent(limit);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void topNPopulatedCitiesTesInARegion() {
+    String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
+            + "WHERE country.Region = 'Middle East'"
+            + "ORDER BY city.population DESC %s", limit);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.topNPopulatedCitiesInARegion(limit);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
+  @Test
+  void topNPopulatedCitiesInACountry() {
+    String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
+            + "WHERE country.Name = 'Norway, "
+            + "ORDER BY city.population DESC %s", limit);
+
+    String expected = "String returned";
+
+    Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
+
+    String result = subject.topNPopulatedCitiesInACountry(limit);
+    assertEquals(sqlManager.executeStatement(stmt), result);
+  }
+
 }

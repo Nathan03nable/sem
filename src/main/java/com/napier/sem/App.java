@@ -1,7 +1,10 @@
 package com.napier.sem;
 
+import com.napier.sem.cities.City;
+import com.napier.sem.cities.CapitalCity;
 import com.napier.sem.population.Population;
 import com.napier.sem.countries.Country;
+
 
 public class App
 {
@@ -27,9 +30,16 @@ public class App
 
         Country country = new Country(sqlManager);
 
-        System.out.println(population.districtPopulation(DISTRICT));
-        System.out.println(population.cityPopulation(CITY));
-        System.out.println(population.countryPopulation(COUNTRY));
+        City city = new City(sqlManager);
+
+        CapitalCity capitalCity = new CapitalCity(sqlManager);
+
+
+       // System.out.println(population.districtPopulation(DISTRICT));
+        //System.out.println(population.cityPopulation(CITY));
+
+        //System.out.println(population.countryPopulation(COUNTRY));
+        /*
 
         System.out.println(country.worldCountries());
         System.out.println(country.continentCountries());
@@ -37,6 +47,20 @@ public class App
         System.out.println(country.topNPopulatedCountries(limit));
         System.out.println(country.topNPopulatedContinentCountries(limit));
         System.out.println(country.topNPopulatedRegionalCountries(limit));
+
+        //System.out.println(city.topNPopulatedCitiesInAContinent(CONTINENT, limit));
+
+*/
+        System.out.println(city.worldCities());
+        //System.out.println(city.topNPopulatedCitiesInAContinent(limit));
+
+        //System.out.println(capitalCity.continentCapitalCities());
+
+        //System.out.println(city.countryCities());
+        //System.out.println(country.topNPopulatedContinentCountries(limit));
+
+
+
 
         databaseConnection.disconnect();
     }
