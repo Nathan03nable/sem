@@ -40,7 +40,7 @@ class ListHelperFunctionsTest {
     LinkedHashMap<String, Object> row = new LinkedHashMap<>();
     row.put("Column name", "String");
 
-    Mockito.when(resultSetMetaData.getColumnName(RANDOM_COLUMN_NUMBER)).thenReturn("Column name");
+    Mockito.when(resultSetMetaData.getColumnLabel(RANDOM_COLUMN_NUMBER)).thenReturn("Column name");
     Mockito.when(resultSet.getObject(RANDOM_COLUMN_NUMBER)).thenReturn("String");
 
     Map<String, Object> result = subject.getRow(resultSet, resultSetMetaData, RANDOM_LOOP_COUNT);
@@ -49,7 +49,7 @@ class ListHelperFunctionsTest {
 
   @Test
   void getRowTestShouldThrowSQLException() throws SQLException {
-    Mockito.when(resultSetMetaData.getColumnName(RANDOM_COLUMN_NUMBER))
+    Mockito.when(resultSetMetaData.getColumnLabel(RANDOM_COLUMN_NUMBER))
         .thenThrow(new SQLException());
     Mockito.when(resultSet.getObject(RANDOM_COLUMN_NUMBER)).thenReturn("String");
 
