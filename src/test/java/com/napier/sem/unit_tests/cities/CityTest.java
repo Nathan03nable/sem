@@ -1,6 +1,7 @@
-package com.napier.sem.cities;
+package com.napier.sem.unit_tests.cities;
 
 import com.napier.sem.SqlManager;
+import com.napier.sem.cities.City;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -9,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CityTest {
+class CityTest {
 
   private City subject;
 
@@ -17,7 +18,7 @@ public class CityTest {
   private SqlManager sqlManager;
 
   @BeforeEach
-  public void init(){
+  void init(){
     MockitoAnnotations.initMocks(this);
     subject = new City(sqlManager);
   }
@@ -33,7 +34,7 @@ public class CityTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.worldCities();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -49,7 +50,7 @@ public class CityTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.continentCities();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -65,7 +66,7 @@ public class CityTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.regionCities();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -82,7 +83,7 @@ public class CityTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.countryCities();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -98,6 +99,6 @@ public class CityTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.districtCities();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 }

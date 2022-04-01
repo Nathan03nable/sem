@@ -1,15 +1,15 @@
-package com.napier.sem.populations;
+package com.napier.sem.unit_tests.populations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.napier.sem.population.Population;
 import com.napier.sem.SqlManager;
-import com.napier.sem.populations.Population;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class PopulationTest {
+class PopulationTest {
 
   private Population subject;
 
@@ -23,7 +23,7 @@ public class PopulationTest {
   private static final String CITY = "'Edinburgh'";
 
   @BeforeEach
-  public void init(){
+  void init(){
     MockitoAnnotations.initMocks(this);
     subject = new Population(sqlManager);
   }
@@ -43,7 +43,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.worldPopulation();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -63,7 +63,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.continentPopulation(CONTINENT);
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -84,7 +84,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.regionPopulation(REGION);
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -106,7 +106,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.countryPopulation(COUNTRY);
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -124,7 +124,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.districtPopulation(DISTRICT);
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -142,7 +142,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.cityPopulation(CITY);
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -162,7 +162,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.everyContinentPopulation();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -182,7 +182,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.everyRegionPopulation();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
   @Test
@@ -202,7 +202,7 @@ public class PopulationTest {
     Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
     String result = subject.everyCountryPopulation();
-    assertEquals(sqlManager.executeStatement(stmt), result);
+    assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
 }
