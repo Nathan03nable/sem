@@ -17,9 +17,9 @@ public class App
     private static final String WORLD_POPULATION = "6078547450";
     public static void main(String[] args) {
         String location;
-        if(args.length < 1){
+        if (args.length < 1) {
             location = "localhost:33060";
-        }else{
+        } else {
             location = args[0];
         }
         IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
@@ -32,7 +32,7 @@ public class App
 
         City city = new City(sqlManager);
 
-        if(LOGGER.isLoggable(Level.INFO)){
+        if (LOGGER.isLoggable(Level.INFO)) {
             LOGGER.info(population.districtPopulation(DISTRICT));
             LOGGER.info(population.cityPopulation(CITY));
             LOGGER.info(population.countryPopulation(COUNTRY));
@@ -48,10 +48,11 @@ public class App
             LOGGER.info(country.topNPopulatedContinentCountries(limit));
             LOGGER.info(country.topNPopulatedRegionalCountries(limit));
 
-        Language language = new Language(sqlManager);
-        if(LOGGER.isLoggable(Level.INFO)){
-            LOGGER.info(language.languagesReport(WORLD_POPULATION));
+            Language language = new Language(sqlManager);
+            if (LOGGER.isLoggable(Level.INFO)) {
+                LOGGER.info(language.languagesReport(WORLD_POPULATION));
+            }
+            databaseConnection.disconnect();
         }
-        databaseConnection.disconnect();
     }
 }
