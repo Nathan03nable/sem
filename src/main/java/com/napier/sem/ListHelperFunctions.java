@@ -13,7 +13,7 @@ public class ListHelperFunctions {
     public Map<String, Object> getRow(ResultSet result, ResultSetMetaData metaData, int columnCount) throws SQLException {
         HashMap<String, Object> row = new LinkedHashMap<>();
         for (int i = 1; i <= columnCount; i++) {
-            row.put(metaData.getColumnName(i), result.getObject(i));
+            row.put(metaData.getColumnLabel(i), result.getObject(i));
         }
         return row;
     }
