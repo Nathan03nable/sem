@@ -26,8 +26,8 @@ class CityTest {
   @Test
   void worldCitiesTest()
   {
-    String stmt = "SELECT Name, CountryCode, District, Population "
-            + "FROM city "
+    String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
             + "ORDER BY Population DESC;";
 
     String expected = "String returned";
@@ -40,9 +40,9 @@ class CityTest {
   @Test
   void continentCitiesTest()
   {
-    String stmt = "SELECT name, code, continent, region, population, capital "
-            + "FROM country "
-            + "WHERE continent = 'Africa'"
+    String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
+            + "WHERE continent = 'Africa' "
             + "ORDER BY population DESC;";
 
     String expected = "String returned";
@@ -56,9 +56,9 @@ class CityTest {
   @Test
   void regionCitiesTest()
   {
-    String stmt = "SELECT name, code, continent, region, population, capital "
-            + "FROM country "
-            + "WHERE region = 'Middle East'"
+    String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
+            + "WHERE region = 'Middle East' "
             + "ORDER BY population DESC;";
 
     String expected = "String returned";
@@ -72,9 +72,8 @@ class CityTest {
   @Test
   void countryCitiesTest()
   {
-    String stmt = "SELECT city.Name, country.Name AS Country, District, city.Population "
-            + "FROM city "
-            + "JOIN country ON Code = CountryCode "
+    String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+            + "FROM city JOIN country ON (country.code=city.countrycode) "
             + "WHERE country.Name = 'Norway' "
             + "ORDER BY city.Population DESC;";
 
