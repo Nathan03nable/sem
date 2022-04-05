@@ -26,11 +26,12 @@ body:
       value: "Failed test in CityTest.countryCitiesTest:85 expected: <String returned> but was: <null>"
     validations:
       required: true
-  - type: dropdown
-    id: version
+  - type: textarea
+    id: bug-fix
     attributes:
       label: Bug fix
       description: How did you fix the issue?
+      placeholder: Tell us what you did!
       value: "Inserted a space after statement"
     validations:
       required: false
