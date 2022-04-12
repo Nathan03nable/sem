@@ -68,7 +68,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
      */
     private void connect()
     {
-        checkForSqlDriver();
+        checkForSqlDriver("com.mysql.cj.jdbc.Driver");
 
         for (int i = 0; i < RETRIES; ++i)
         {
@@ -78,19 +78,18 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         }
     }
 
-    public void checkForSqlDriver() {
+    public void checkForSqlDriver(String driver) {
         try
         {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(driver);
         }
         catch (ClassNotFoundException e)
         {
-            LOGGER.severe("Could not load SQL driver");
-            System.exit(-1);
+            throw(new RuntimeException("Could not load SQL driver"));
         }
     }
 
-    private boolean tryToConnect(int i) {
+    public boolean tryToConnect(int i) {
         LOGGER.info("Connecting to database...");
 
         try
@@ -98,9 +97,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             Thread.sleep(30000);
             LOGGER.info("jdbc:mysql://" + location
                     + "/world?allowPublicKeyRetrieval=true&useSSL=false");
-            // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
-            // Original: connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+
             connection = DriverManager.getConnection("jdbc:mysql://" + location
                             + "/world?allowPublicKeyRetrieval=true&useSSL=false",
                     "root", "example");

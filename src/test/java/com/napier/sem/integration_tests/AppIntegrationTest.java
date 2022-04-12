@@ -3,32 +3,36 @@ package com.napier.sem.integration_tests;
 import com.napier.sem.App;
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.MockedStatic.Verification;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 
 
 class AppIntegrationTest
 {
-    static App subject;
+    private static IDatabaseConnection subject;
 
-    private static IDatabaseConnection databaseConnection;
+    private static final String FAKE_CLASS = "not real";
 
-    private static final String FAKE_CLASS = "com.mysql.cj.jdbc.Driver";
     @BeforeAll
     static void init()
     {
-        subject = new App();
         String location = "localhost:33060";
-        databaseConnection = DatabaseConnectionImpl.getInstance(location);
+        subject = DatabaseConnectionImpl.getInstance(location);
     }
 
     @Test
     void testExecuteSQLStatement (){
         String statement = "Select Name from city where id='1';";
-        String response = databaseConnection.executeSQLStatement(statement);
+        String response = subject.executeSQLStatement(statement);
         assertEquals("{Name=Kabul}", response, "Should return Kabul");
     }
 
@@ -36,18 +40,31 @@ class AppIntegrationTest
     void testExecuteInvalidSqlStatementShouldReturnEmptyStringWhenSQLExceptionIsThrown(){
         String invalidStatement = "Select;";
 
-        String result = databaseConnection.executeSQLStatement(invalidStatement);
+        String result = subject.executeSQLStatement(invalidStatement);
         assertEquals("", result, "Should return an empty string");
     }
 
     @Test
-    void testTryToConnectThrowsSqlException() throws ClassNotFoundException {
-        Mockito.when(Class.forName(FAKE_CLASS)).thenThrow(new ClassNotFoundException());
-
-        assertThrows(ClassNotFoundException.class, () -> databaseConnection.checkForSqlDriver());
+    void testCheckForSqlDriverThrowsRuntimeException() {
+        assertThrows(RuntimeException.class, () -> subject.checkForSqlDriver(FAKE_CLASS));
     }
+
+    @Test
+    void testTryToConnectThrowsSqlException() throws SQLException {
+        MockedStatic<DriverManager> driverManagerMockedStatic = Mockito.mockStatic(DriverManager.class);
+        driverManagerMockedStatic.when((Verification) DriverManager.getConnection("aurl", "auser", "pass")).thenThrow(new SQLException());
+        assertThrows(SQLException.class, () -> subject.tryToConnect(0));
+    }
+
+    @Test
+    void testTryToConnectThrowsInterruptedException() throws InterruptedException, SQLException {
+        MockedStatic<DriverManager> driverManagerMockedStatic = Mockito.mockStatic(DriverManager.class);
+        driverManagerMockedStatic.when((Verification) DriverManager.getConnection("aurl", "auser", "pass")).thenThrow(new InterruptedException());
+        assertThrows(SQLException.class, () -> subject.tryToConnect(0));
+    }
+
     @Test
     void testDisconnect(){
-        databaseConnection.disconnect();
+        subject.disconnect();
     }
 }

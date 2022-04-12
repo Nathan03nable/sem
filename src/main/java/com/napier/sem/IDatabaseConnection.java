@@ -6,5 +6,7 @@ public interface IDatabaseConnection {
 
     void disconnect();
 
-    void checkForSqlDriver();
+    void checkForSqlDriver(String fakeClass);
+
+    boolean tryToConnect(int i);
 }
