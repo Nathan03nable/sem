@@ -78,7 +78,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         }
     }
 
-    private void checkForSqlDriver() {
+    public void checkForSqlDriver() {
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");

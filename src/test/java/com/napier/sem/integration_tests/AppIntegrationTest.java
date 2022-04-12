@@ -5,6 +5,8 @@ import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -14,6 +16,7 @@ class AppIntegrationTest
 
     private static IDatabaseConnection databaseConnection;
 
+    private static final String FAKE_CLASS = "com.mysql.cj.jdbc.Driver";
     @BeforeAll
     static void init()
     {
@@ -30,13 +33,19 @@ class AppIntegrationTest
     }
 
     @Test
-    void testExecuteInvalidSqlStatementShouldReturnnEmptyStringWhenSQLExceptionIsThrown(){
+    void testExecuteInvalidSqlStatementShouldReturnEmptyStringWhenSQLExceptionIsThrown(){
         String invalidStatement = "Select;";
 
         String result = databaseConnection.executeSQLStatement(invalidStatement);
         assertEquals("", result, "Should return an empty string");
     }
 
+    @Test
+    void testTryToConnectThrowsSqlException() throws ClassNotFoundException {
+        Mockito.when(Class.forName(FAKE_CLASS)).thenThrow(new ClassNotFoundException());
+
+        assertThrows(ClassNotFoundException.class, () -> databaseConnection.checkForSqlDriver());
+    }
     @Test
     void testDisconnect(){
         databaseConnection.disconnect();

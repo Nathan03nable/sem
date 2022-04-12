@@ -5,4 +5,6 @@ public interface IDatabaseConnection {
     String executeSQLStatement(String sqlStatement);
 
     void disconnect();
+
+    void checkForSqlDriver();
 }
