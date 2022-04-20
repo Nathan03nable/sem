@@ -3,9 +3,12 @@ package com.napier.sem.integration_tests;
 import com.napier.sem.App;
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class AppIntegrationTest
@@ -40,5 +43,8 @@ class AppIntegrationTest
     @Test
     void testDisconnect(){
         databaseConnection.disconnect();
+        String result = databaseConnection.executeSQLStatement("Select Name from city where id='1';");
+        //assertEquals("Failed to execute SQL statement", result, "Should return an error message");
+        assertThat(result, CoreMatchers.containsString("Failed to execute SQL statement"));
     }
 }
