@@ -1,18 +1,7 @@
 package com.napier.sem.integration_tests;
 
-import com.napier.sem.DatabaseConnectionImpl;
-import com.napier.sem.IDatabaseConnection;
-import nl.altindag.log.LogCaptor;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class invalidDbConnectionTest {
-
+/*
     private static IDatabaseConnection subject;
     private static final LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
 
@@ -46,5 +35,5 @@ public class invalidDbConnectionTest {
         boolean result = logOutput.contains("Could not create connection to database server.");
         assertTrue(result, "No connection to database server: should return true");
     }
-
+*/
 }
