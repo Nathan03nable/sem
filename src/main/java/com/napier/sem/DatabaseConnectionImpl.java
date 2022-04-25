@@ -66,12 +66,13 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     /**
      * Connect to the MySQL database.
      */
-    private void connect()
+    public void connect()
     {
         checkForSqlDriver("com.mysql.cj.jdbc.Driver");
 
         for (int i = 0; i < RETRIES; ++i)
         {
+            LOGGER.info("Attempting to connect to database. Try " + i);
             if (tryToConnect(i)){
                 break;
             }
