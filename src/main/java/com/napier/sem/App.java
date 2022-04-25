@@ -22,7 +22,7 @@ public class App
         } else {
             location = args[0];
         }
-        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location, 10);
 
         SqlManager sqlManager = new SqlManager(databaseConnection);
 
