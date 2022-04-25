@@ -1,19 +1,20 @@
 package com.napier.sem.integration_tests;
 
-import com.napier.sem.App;
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.MockedStatic.Verification;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class AppIntegrationTest
@@ -65,6 +66,11 @@ class AppIntegrationTest
 
     @Test
     void testDisconnect(){
+        LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
         subject.disconnect();
+        String statement = "Select Name from city where id='1';";
+        subject.executeSQLStatement(statement);
+        List<String> logOutput = logCaptor.getLogs();
+        logOutput.contains("No operations allowed after connection closed.");
     }
 }
