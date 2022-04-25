@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-public class LanguageTest {
+class LanguageTest {
 
   private static final String WORLD_POPULATION = "2";
   private Language subject;
