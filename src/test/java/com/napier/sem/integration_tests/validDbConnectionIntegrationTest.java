@@ -3,6 +3,7 @@ package com.napier.sem.integration_tests;
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
 import nl.altindag.log.LogCaptor;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,11 @@ class validDbConnectionIntegrationTest
     {
         String location = "localhost:33060";
         subject = DatabaseConnectionImpl.getInstance(location, 5);
+    }
+
+    @AfterAll
+    static void tearDown(){
+        subject = null;
     }
 
     @Test
