@@ -122,4 +122,9 @@ public class Population {
 
     return sqlManager.executeStatement(stmt);
   }
+
+  public String extractWorldPopulation(String worldPopulationQueryResult){
+    String firstSplit = worldPopulationQueryResult.split("World Population=")[1];
+    return firstSplit.split(",")[0];
+  }
 }

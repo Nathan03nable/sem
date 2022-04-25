@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.napier.sem.population.Population;
 import com.napier.sem.SqlManager;
+import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -205,4 +206,13 @@ class PopulationTest {
     assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
 
+  @Test
+  void TestExtractPopulation(){
+    String worldPopulationQuery = "{World Population=6078547450, Cities Population=1429559884, Cities Population%=23.5181, Rural Population=4648987566, Rural Population%=76.4819}";
+
+    String expectedWorldPopulation = "6078547450";
+    String resutlt = subject.extractWorldPopulation(worldPopulationQuery);
+
+    assertEquals(expectedWorldPopulation, resutlt);
+  }
 }
