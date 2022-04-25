@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.napier.sem.population.Population;
 import com.napier.sem.SqlManager;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -213,6 +212,6 @@ class PopulationTest {
     String expectedWorldPopulation = "6078547450";
     String resutlt = subject.extractWorldPopulation(worldPopulationQuery);
 
-    assertEquals(expectedWorldPopulation, resutlt);
+    assertEquals(expectedWorldPopulation, resutlt, "Make sure extract world population has the correct world population");
   }
 }
