@@ -24,13 +24,15 @@ public class invalidDbConnectionTest {
     }
 
     @Test
-    public void testTryToConnect() {
+    public void testTryToConnect(){
         subject.tryToConnect(1);
 
         List<String> logOutput = logCaptor.getLogs();
 
         boolean result = logOutput.contains("Could not create connection to database server.");
+        boolean result2 = logOutput.contains("Failed to connect to database attempt 1");
         assertTrue(result, "Could not create DB connection: should return true");
+        assertTrue(result2, "Failed to connect to database server: should return true");
     }
 
     @Test
