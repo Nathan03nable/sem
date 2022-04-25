@@ -3,6 +3,7 @@ package com.napier.sem.integration_tests;
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
 import nl.altindag.log.LogCaptor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -31,4 +32,17 @@ public class invalidDbConnectionTest {
         boolean result = logOutput.contains("Could not create connection to database server.");
         assertTrue(result, "Could not create DB connection: should return true");
     }
+
+    @Test
+    public void testExecuteSQLStatement_failedDatabaseConnection() throws NullPointerException{
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            String statement = "Select Name from city where id='1';";
+            subject.executeSQLStatement(statement);
+        });
+
+        List<String> logOutput = logCaptor.getLogs();
+        boolean result = logOutput.contains("Could not create connection to database server.");
+        assertTrue(result, "No connection to database server: should return true");
+    }
+
 }
