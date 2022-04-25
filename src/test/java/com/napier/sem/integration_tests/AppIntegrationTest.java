@@ -22,7 +22,7 @@ class AppIntegrationTest
 
     private static final String FAKE_CLASS = "not real";
 
-    LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
+    private static final LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
 
 
     @BeforeAll
@@ -53,6 +53,17 @@ class AppIntegrationTest
     }
 
     @Test
+    void testTryToConnect_SuccessfulConnection(){
+        subject.tryToConnect(1);
+        logCaptor.getLogs();
+
+        List<String> logOutput = logCaptor.getLogs();
+
+        boolean result = logOutput.contains("Successfully connected");
+        assertTrue(result, "TryToConnect: should return true");
+    }
+
+    @Test
     void testTryToConnectThrowsSqlException() throws SQLException {
         MockedStatic<DriverManager> driverManagerMockedStatic = Mockito.mockStatic(DriverManager.class);
         driverManagerMockedStatic.when((Verification) DriverManager.getConnection("aurl", "auser", "pass")).thenThrow(new SQLException());
@@ -66,6 +77,7 @@ class AppIntegrationTest
         assertThrows(SQLException.class, () -> subject.tryToConnect(0));
     }
 
+
     @Test
     void testDisconnect(){
         subject.disconnect();
@@ -76,6 +88,5 @@ class AppIntegrationTest
         List<String> logOutput = logCaptor.getLogs();
         boolean result = logOutput.contains("No operations allowed after connection closed.");
         assertTrue(result, "No operations allowed: should return true");
-
     }
 }
