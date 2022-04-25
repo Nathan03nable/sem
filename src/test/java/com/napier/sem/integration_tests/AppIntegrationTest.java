@@ -13,8 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class AppIntegrationTest
@@ -22,6 +21,9 @@ class AppIntegrationTest
     private static IDatabaseConnection subject;
 
     private static final String FAKE_CLASS = "not real";
+
+    LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
+
 
     @BeforeAll
     static void init()
@@ -66,11 +68,14 @@ class AppIntegrationTest
 
     @Test
     void testDisconnect(){
-        LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
         subject.disconnect();
+
         String statement = "Select Name from city where id='1';";
         subject.executeSQLStatement(statement);
+
         List<String> logOutput = logCaptor.getLogs();
-        logOutput.contains("No operations allowed after connection closed.");
+        boolean result = logOutput.contains("No operations allowed after connection closed.");
+        assertTrue(result, "No operations allowed: should return true");
+
     }
 }
