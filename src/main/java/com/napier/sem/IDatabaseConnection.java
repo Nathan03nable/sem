@@ -9,4 +9,6 @@ public interface IDatabaseConnection {
     void checkForSqlDriver(String fakeClass);
 
     boolean tryToConnect(int i);
+
+    void connect();
 }
