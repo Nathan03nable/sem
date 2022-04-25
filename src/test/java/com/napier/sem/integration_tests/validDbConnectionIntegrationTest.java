@@ -5,18 +5,13 @@ import com.napier.sem.IDatabaseConnection;
 import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.MockedStatic.Verification;
-import org.mockito.Mockito;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class AppIntegrationTest
+class validDbConnectionIntegrationTest
 {
     private static IDatabaseConnection subject;
 
@@ -29,7 +24,7 @@ class AppIntegrationTest
     static void init()
     {
         String location = "localhost:33060";
-        subject = DatabaseConnectionImpl.getInstance(location);
+        subject = DatabaseConnectionImpl.getInstance(location, 5);
     }
 
     @Test
@@ -63,20 +58,25 @@ class AppIntegrationTest
         assertTrue(result, "TryToConnect: should return true");
     }
 
-    @Test
-    void testTryToConnectThrowsSqlException() throws SQLException {
-        MockedStatic<DriverManager> driverManagerMockedStatic = Mockito.mockStatic(DriverManager.class);
-        driverManagerMockedStatic.when((Verification) DriverManager.getConnection("aurl", "auser", "pass")).thenThrow(new SQLException());
-        assertThrows(SQLException.class, () -> subject.tryToConnect(0));
-    }
-
+    /*
     @Test
     void testTryToConnectThrowsInterruptedException() throws InterruptedException, SQLException {
         MockedStatic<DriverManager> driverManagerMockedStatic = Mockito.mockStatic(DriverManager.class);
         driverManagerMockedStatic.when((Verification) DriverManager.getConnection("aurl", "auser", "pass")).thenThrow(new InterruptedException());
         assertThrows(SQLException.class, () -> subject.tryToConnect(0));
     }
+*/
 
+    @Test
+    void testConnect(){
+        subject.connect();
+
+        List<String> logOutput = logCaptor.getLogs();
+        boolean result1 = logOutput.contains("Attempting to connect to database");
+        boolean result2 = logOutput.contains("Connection established");
+        assertTrue(result1, "Attempting to connect: should return true");
+        assertTrue(result2, "Connection established: should return true");
+    }
 
     @Test
     void testDisconnect(){
