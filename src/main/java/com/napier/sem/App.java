@@ -29,10 +29,10 @@ public class App
         CapitalCity capitalCity = new CapitalCity(sqlManager);
         Language language = new Language(sqlManager);
 
-        LOGGER.info(population.cityPopulation("London"));
-        LOGGER.info(population.countryPopulation("France"));
-        LOGGER.info(population.districtPopulation("Caribbean"));
-        LOGGER.info(population.continentPopulation("Europe"));
+        LOGGER.info(population.cityPopulation("'London'"));
+        LOGGER.info(population.countryPopulation("'France'"));
+        LOGGER.info(population.districtPopulation("'Caribbean'"));
+        LOGGER.info(population.continentPopulation("'Europe'"));
         LOGGER.info(population.everyContinentPopulation());
         LOGGER.info(population.everyCountryPopulation());
         LOGGER.info(population.everyRegionPopulation());
