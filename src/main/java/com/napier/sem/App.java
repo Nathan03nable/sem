@@ -19,7 +19,7 @@ public class App
         } else {
             location = args[0];
         }
-        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location, 10);
 
         SqlManager sqlManager = new SqlManager(databaseConnection);
 
@@ -29,10 +29,10 @@ public class App
         CapitalCity capitalCity = new CapitalCity(sqlManager);
         Language language = new Language(sqlManager);
 
-        LOGGER.info(population.cityPopulation("London"));
-        LOGGER.info(population.countryPopulation("France"));
-        LOGGER.info(population.districtPopulation("Caribbean"));
-        LOGGER.info(population.continentPopulation("Europe"));
+        LOGGER.info(population.cityPopulation("'London'"));
+        LOGGER.info(population.countryPopulation("'France'"));
+        LOGGER.info(population.districtPopulation("'Caribbean'"));
+        LOGGER.info(population.continentPopulation("'Europe'"));
         LOGGER.info(population.everyContinentPopulation());
         LOGGER.info(population.everyCountryPopulation());
         LOGGER.info(population.everyRegionPopulation());

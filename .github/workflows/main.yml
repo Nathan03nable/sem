@@ -35,7 +35,8 @@ jobs:
         run: |
           docker build -t database ./world
           docker run --name world -dp 33060:3306 database
-          mvn '-Dtest=com.napier.sem.integration_tests.*Test' test
+          mvn '-Dtest=com.napier.sem.integration_tests.ValidDbConnectionIntegrationTest' test
+          mvn '-Dtest=com.napier.sem.integration_tests.InvalidDbConnectionTest' test
           docker stop world
           docker rm world
           docker image rm database
