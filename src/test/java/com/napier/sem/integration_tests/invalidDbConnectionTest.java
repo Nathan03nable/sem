@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class invalidDbConnectionTest {
-    /**
     private static IDatabaseConnection subject1;
     private static final LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
 
@@ -44,5 +43,4 @@ public class invalidDbConnectionTest {
             }
         }
     }
-    */
 }
