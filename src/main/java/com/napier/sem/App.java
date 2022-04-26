@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 public class App
 {
     static final String limit = "5";
-    static final String continent = "Africa";
+    static final String continent = "'Africa'";
     static final String countryName = "'Spain'";
     static final String district = "'Fujian'";
-    static final String region = "Middle East";
+    static final String region = "'Middle East'";
     static final String cityName = "'London'";
 
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -34,7 +34,7 @@ public class App
         City city = new City(sqlManager);
         CapitalCity capitalCity = new CapitalCity(sqlManager);
         Language language = new Language(sqlManager);
-
+/*
         LOGGER.info(population.worldPopulation());
         LOGGER.info(population.cityPopulation(cityName));
         LOGGER.info(population.countryPopulation(countryName));
@@ -43,14 +43,14 @@ public class App
         LOGGER.info(population.everyContinentPopulation());
         LOGGER.info(population.everyCountryPopulation());
         LOGGER.info(population.everyRegionPopulation());
-
+*/
         LOGGER.info(country.continentCountries(continent));
         LOGGER.info(country.regionCountries(region));
         LOGGER.info(country.worldCountries());
         LOGGER.info(country.topNPopulatedContinentCountries(continent, limit));
         LOGGER.info(country.topNPopulatedCountries(limit));
         LOGGER.info(country.topNPopulatedRegionalCountries(region, limit));
-
+/*
         LOGGER.info(city.continentCities(continent));
         LOGGER.info(city.countryCities(countryName));
         LOGGER.info(city.districtCities(district));
@@ -72,7 +72,7 @@ public class App
 
         String worldPop = population.extractWorldPopulation(population.worldPopulation());
         LOGGER.info(language.languagesReport(worldPop));
-
+*/
         databaseConnection.disconnect();
     }
 }

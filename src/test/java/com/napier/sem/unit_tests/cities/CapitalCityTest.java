@@ -48,7 +48,7 @@ class CapitalCityTest {
   void topNPopulatedCapitalCitiesInAContinent(){
     String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
             + "FROM city JOIN country ON (country.code=city.countrycode) "
-            + "WHERE country.capital = city.id AND country.continent = '%s' "
+            + "WHERE country.capital = city.id AND country.continent = %s "
             + "ORDER BY city.population DESC LIMIT %s;", continent, limit);
 
     String expected = "String returned";
@@ -62,7 +62,7 @@ class CapitalCityTest {
   void topNPopulatedCapitalCitiesInARegion(){
     String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
             + "FROM city JOIN country ON (country.code=city.countrycode) "
-            + "WHERE country.capital = city.id AND country.region = '%s' "
+            + "WHERE country.capital = city.id AND country.region = %s "
             + "ORDER BY city.population DESC LIMIT %s;", region, limit);
 
     String expected = "String returned";
@@ -90,7 +90,7 @@ class CapitalCityTest {
   void continentCapitalCitiesTest() {
     String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
             + "FROM city JOIN country ON (country.code=city.countrycode) "
-            + "WHERE country.capital = city.id AND country.continent = '%s' "
+            + "WHERE country.capital = city.id AND country.continent = %s "
             + "ORDER BY city.population DESC;", continent);
 
     String expected = "String returned";
@@ -104,7 +104,7 @@ class CapitalCityTest {
   void regionCapitalCitiesTest() {
     String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
             + "FROM city JOIN country ON (country.code=city.countrycode) "
-            + "WHERE country.capital = city.id AND country.region = '%s' "
+            + "WHERE country.capital = city.id AND country.region = %s "
             + "ORDER BY city.population DESC;", region);
 
     String expected = "String returned";

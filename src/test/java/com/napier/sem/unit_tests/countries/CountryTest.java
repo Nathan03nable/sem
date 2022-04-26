@@ -41,7 +41,7 @@ class CountryTest {
 
     @Test
     void continentCountriesTest() {
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = '%s' ORDER BY population DESC;", continent);
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = %s ORDER BY population DESC;", continent);
 
         String expected = "String returned";
 
@@ -53,7 +53,7 @@ class CountryTest {
 
     @Test
     void regionCountriesTest() {
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = '%s' ORDER BY population DESC;", region);
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = %s ORDER BY population DESC;", region);
 
         String expected = "String returned";
 
@@ -77,7 +77,7 @@ class CountryTest {
 
     @Test
     void topNPopulatedContinentCountriesTest() {
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = '%s' ORDER BY population DESC LIMIT %s", continent, limit);
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = %s ORDER BY population DESC LIMIT %s", continent, limit);
 
         String expected = "String returned";
 
@@ -89,7 +89,7 @@ class CountryTest {
 
     @Test
     void topNPopulatedRegionalCountriesTest() {
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = '%s' ORDER BY population DESC LIMIT %s", region, limit);
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = %s ORDER BY population DESC LIMIT %s", region, limit);
 
         String expected = "String returned";
 
