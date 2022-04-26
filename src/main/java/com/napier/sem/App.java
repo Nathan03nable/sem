@@ -36,6 +36,9 @@ public class App
         LOGGER.info(population.everyContinentPopulation());
         LOGGER.info(population.everyCountryPopulation());
         LOGGER.info(population.everyRegionPopulation());
+        LOGGER.info(population.topNPopulatedCountriesInWorld("Afghanistan", limit));
+        LOGGER.info(population.topNPopulatedCountriesInContinent("Africa", limit));
+        LOGGER.info(population.topNPopulatedCountriesInRegion("Caribbean", limit));
 
         LOGGER.info(country.continentCountries());
         LOGGER.info(country.regionCountries());
