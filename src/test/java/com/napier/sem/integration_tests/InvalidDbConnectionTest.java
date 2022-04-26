@@ -12,7 +12,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class invalidDbConnectionTest {
+class InvalidDbConnectionTest {
     private static IDatabaseConnection subject1;
     private static final LogCaptor logCaptor = LogCaptor.forClass(DatabaseConnectionImpl.class);
 
@@ -30,14 +30,14 @@ public class invalidDbConnectionTest {
     }
 
     @Test
-    public void testTryToConnect(){
+    void testTryToConnect(){
         subject1.tryToConnect(1);
 
         List<String> logOutput = logCaptor.getLogs();
 
         for(var log : logOutput){
             if(Objects.equals(log, "Failed to connect to database attempt 1")){
-                assertEquals("Failed to connect to database attempt 1", log);
+                assertEquals("Failed to connect to database attempt 1", log, "log has correct message");
             }
         }
     }
