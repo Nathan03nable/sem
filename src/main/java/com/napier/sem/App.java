@@ -25,7 +25,7 @@ public class App
         } else {
             location = args[0];
         }
-        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location);
+        IDatabaseConnection databaseConnection = DatabaseConnectionImpl.getInstance(location, 10);
 
         SqlManager sqlManager = new SqlManager(databaseConnection);
 
@@ -40,9 +40,13 @@ public class App
         LOGGER.info(population.countryPopulation(countryName));
         LOGGER.info(population.districtPopulation(region));
         LOGGER.info(population.continentPopulation(continent));
+
         LOGGER.info(population.everyContinentPopulation());
         LOGGER.info(population.everyCountryPopulation());
         LOGGER.info(population.everyRegionPopulation());
+        LOGGER.info(population.topNPopulatedCountriesInWorld(countryName, limit));
+        LOGGER.info(population.topNPopulatedCountriesInContinent(continent, limit));
+        LOGGER.info(population.topNPopulatedCountriesInRegion(region, limit));
 
         LOGGER.info(country.continentCountries(continent));
         LOGGER.info(country.regionCountries(region));
@@ -62,10 +66,8 @@ public class App
         LOGGER.info(city.worldCities());
 
         LOGGER.info(capitalCity.worldCapitalCities());
-
         LOGGER.info(capitalCity.regionCapitalCities(region));
         LOGGER.info(capitalCity.continentCapitalCities(region));
-
         LOGGER.info(capitalCity.topNPopulatedCapitalCitiesInTheWorld(limit));
         LOGGER.info(capitalCity.topNPopulatedCapitalCitiesInARegion(region, limit));
         LOGGER.info(capitalCity.topNPopulatedCapitalCitiesInAContinent(continent, limit));

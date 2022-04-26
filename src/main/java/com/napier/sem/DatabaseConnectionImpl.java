@@ -10,7 +10,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
 
     private static DatabaseConnectionImpl instance;
     private final ListHelperFunctions listHelperFunctions;
-    static final int RETRIES = 10;
+    private int retries = 10;
     /**
      * Connection to MySQL database.
      */
@@ -18,15 +18,16 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     private final String location;
     private static final Logger LOGGER = Logger.getLogger(DatabaseConnectionImpl.class.getName());
 
-    private DatabaseConnectionImpl(String location){
+    private DatabaseConnectionImpl(String location, int connectionAttempts){
         listHelperFunctions = new ListHelperFunctions();
         this.location = location;
+        this.retries = connectionAttempts;
         this.connect();
     }
 
-    public static IDatabaseConnection getInstance(String location){
+    public static IDatabaseConnection getInstance(String location, int connectionAttempts){
         if (instance == null){
-            instance = new DatabaseConnectionImpl(location);
+            instance = new DatabaseConnectionImpl(location, connectionAttempts);
         }
         return instance;
     }
@@ -66,31 +67,35 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     /**
      * Connect to the MySQL database.
      */
-    private void connect()
+    @Override
+    public void connect()
     {
-        checkForSqlDriver();
+        checkForSqlDriver("com.mysql.cj.jdbc.Driver");
 
-        for (int i = 0; i < RETRIES; ++i)
+        for (int i = 0; i < retries; ++i)
         {
+            LOGGER.info("Attempting to connect to database");
             if (tryToConnect(i)){
+                LOGGER.info("Connection established");
                 break;
             }
         }
     }
 
-    private void checkForSqlDriver() {
+    @Override
+    public void checkForSqlDriver(String driver) {
         try
         {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(driver);
         }
         catch (ClassNotFoundException e)
         {
-            LOGGER.severe("Could not load SQL driver");
-            System.exit(-1);
+            throw(new RuntimeException("Could not load SQL driver"));
         }
     }
 
-    private boolean tryToConnect(int i) {
+    @Override
+    public boolean tryToConnect(int i) {
         LOGGER.info("Connecting to database...");
 
         try
@@ -98,9 +103,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
             Thread.sleep(30000);
             LOGGER.info("jdbc:mysql://" + location
                     + "/world?allowPublicKeyRetrieval=true&useSSL=false");
-            // Change url to "jdbc:mysql://db:3306/world?useSSL=false" to run on docker
-            // Change url to "jdbc:mysql://localhost:33060/world?useSSL=false" to run locally
-            // Original: connection = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+
             connection = DriverManager.getConnection("jdbc:mysql://" + location
                             + "/world?allowPublicKeyRetrieval=true&useSSL=false",
                     "root", "example");
