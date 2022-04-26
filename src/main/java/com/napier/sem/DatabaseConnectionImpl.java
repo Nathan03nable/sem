@@ -67,6 +67,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
     /**
      * Connect to the MySQL database.
      */
+    @Override
     public void connect()
     {
         checkForSqlDriver("com.mysql.cj.jdbc.Driver");
@@ -81,6 +82,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         }
     }
 
+    @Override
     public void checkForSqlDriver(String driver) {
         try
         {
@@ -92,6 +94,7 @@ public class DatabaseConnectionImpl implements IDatabaseConnection {
         }
     }
 
+    @Override
     public boolean tryToConnect(int i) {
         LOGGER.info("Connecting to database...");
 
