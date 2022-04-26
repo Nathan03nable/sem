@@ -2,12 +2,17 @@ package com.napier.sem.integration_tests;
 
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import org.mockito.MockedStatic;
+import org.mockito.MockedStatic.Verification;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +35,7 @@ class validDbConnectionIntegrationTest
 
     @AfterAll
     static void tearDown(){
+        subject.disconnect();
         subject = null;
     }
 
@@ -63,15 +69,6 @@ class validDbConnectionIntegrationTest
         boolean result = logOutput.contains("Successfully connected");
         assertTrue(result, "TryToConnect: should return true");
     }
-
-    /*
-    @Test
-    void testTryToConnectThrowsInterruptedException() throws InterruptedException, SQLException {
-        MockedStatic<DriverManager> driverManagerMockedStatic = Mockito.mockStatic(DriverManager.class);
-        driverManagerMockedStatic.when((Verification) DriverManager.getConnection("aurl", "auser", "pass")).thenThrow(new InterruptedException());
-        assertThrows(SQLException.class, () -> subject.tryToConnect(0));
-    }
-*/
 
     @Test
     void testConnect(){
