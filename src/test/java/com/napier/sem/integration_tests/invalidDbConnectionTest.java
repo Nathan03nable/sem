@@ -1,18 +1,16 @@
 package com.napier.sem.integration_tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
-import java.util.List;
-import java.util.Objects;
 import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class invalidDbConnectionTest {
     private static IDatabaseConnection subject1;

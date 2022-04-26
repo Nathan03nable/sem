@@ -2,17 +2,12 @@ package com.napier.sem.integration_tests;
 
 import com.napier.sem.DatabaseConnectionImpl;
 import com.napier.sem.IDatabaseConnection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import nl.altindag.log.LogCaptor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import org.mockito.MockedStatic;
-import org.mockito.MockedStatic.Verification;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
 
