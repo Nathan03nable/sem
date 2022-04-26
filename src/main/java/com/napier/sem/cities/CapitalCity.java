@@ -9,13 +9,8 @@ public class CapitalCity {
         this.sqlManager = sqlManager;
     }
 
-    //The top N populated capital cities in the world where N is provided by the user.
-    //The top N populated capital cities in a continent where N is provided by the user.
-    //The top N populated capital cities in a region where N is provided by the user.
-
     public String topNPopulatedCapitalCitiesInTheWorld(String limit){
-        String stmt = String.format(
-            "SELECT city.Name AS City, country.name AS Country, city.Population "
+        String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
                 + "WHERE country.capital = city.id "
                 + "ORDER BY city.population DESC LIMIT %s;", limit);
@@ -23,27 +18,26 @@ public class CapitalCity {
         return sqlManager.executeStatement(stmt);
     }
 
-    public String topNPopulatedCitiesInAContinent(String limit){
-        String stmt = String.format("SELECT city.Name AS City, country.name AS Country, city.Population "
-            + "FROM city JOIN country ON (country.code=city.countrycode) "
-            + "WHERE country.capital = city.id AND country.continent = 'Africa' "
-            + "ORDER BY city.population DESC LIMIT %s;", limit);
-
-        return sqlManager.executeStatement(stmt);
-    }
-
-    public String topNPopulatedCitiesInARegion(String limit){
-        String stmt = String.format(
-            "SELECT city.Name AS City, country.name AS Country, city.Population "
+    public String topNPopulatedCapitalCitiesInAContinent(String continent, String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
-                + "WHERE country.capital = city.id AND country.region = 'Middle East' "
-                + "ORDER BY city.population DESC LIMIT %s;", limit);
+                + "WHERE country.capital = city.id AND country.continent = '%s' "
+                + "ORDER BY city.population DESC LIMIT %s;", continent, limit);
 
         return sqlManager.executeStatement(stmt);
     }
-    //All the capital cities in the world organised by largest population to smallest
+
+    public String topNPopulatedCapitalCitiesInARegion(String region, String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "WHERE country.capital = city.id AND country.region = '%s' "
+                + "ORDER BY city.population DESC LIMIT %s;", region, limit);
+
+        return sqlManager.executeStatement(stmt);
+    }
+
     public String worldCapitalCities(){
-        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
+        String stmt = "SELECT city.Name, country.name AS Country, city.Population "
         + "FROM city JOIN country ON (country.code=city.countrycode) "
         + "WHERE country.capital = city.id "
         + "ORDER BY city.population DESC;";
@@ -51,24 +45,20 @@ public class CapitalCity {
         return sqlManager.executeStatement(stmt);
     }
 
-    //All the capital cities in a continent organised by largest population to smallest.
-    //Replace 'Africa' with country continent argument
-    public String continentCapitalCities(){
-        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
-        + "FROM city JOIN country ON (country.code=city.countrycode) "
-        + "WHERE country.capital = city.id AND country.continent = 'Africa' "
-        + "ORDER BY city.population DESC;";
+    public String continentCapitalCities(String continent){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "WHERE country.capital = city.id AND country.continent = '%s' "
+                + "ORDER BY city.population DESC;", continent);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    //All the capital cities in a region organised by largest to smallest.
-    //Replace 'Middle East' with region argument
-    public String regionCapitalCities(){
-        String stmt = "SELECT city.Name AS City, country.name AS Country, District, city.Population "
-        + "FROM city JOIN country ON (country.code=city.countrycode) "
-        + "WHERE country.capital = city.id AND country.region = 'Middle East' "
-        + "ORDER BY city.population DESC;";
+    public String regionCapitalCities(String region){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "WHERE country.capital = city.id AND country.region = '%s' "
+                + "ORDER BY city.population DESC;", region);
 
         return sqlManager.executeStatement(stmt);
     }

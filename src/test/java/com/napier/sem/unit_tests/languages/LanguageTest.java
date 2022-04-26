@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 class LanguageTest {
 
-  private static final String WORLD_POPULATION = "2";
+  private static final String WORLD_POPULATION = "6078547450";
   private Language subject;
 
   @Mock
