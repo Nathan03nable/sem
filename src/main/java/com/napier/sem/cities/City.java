@@ -8,7 +8,6 @@ public class City {
         this.sqlManager = sqlManager;
     }
 
-    //All the cities in the world organised by largest population to smallest.
     public String worldCities(){
         String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
@@ -17,39 +16,79 @@ public class City {
         return sqlManager.executeStatement(stmt);
     }
 
-    public String continentCities(){
-        String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+    public String continentCities(String continent){
+        String stmt = String.format("SELECT city.Name, country.Name AS 'Country', District, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
-                + "WHERE continent = 'Africa' "
-                + "ORDER BY population DESC;";
+                + "WHERE continent = %s "
+                + "ORDER BY population DESC;", continent);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    public String regionCities(){
-        String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+
+    public String regionCities(String region){
+        String stmt = String.format("SELECT city.Name, country.Name AS 'Country', District, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
-                + "WHERE region = 'Middle East' "
-                + "ORDER BY population DESC;";
+                + "WHERE region = %s "
+                + "ORDER BY population DESC;", region);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    public String countryCities(){
-        String stmt = "SELECT city.Name, country.Name AS 'Country', District, city.Population "
+    public String countryCities(String country){
+        String stmt = String.format("SELECT city.Name, country.Name AS 'Country', District, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
-                + "WHERE country.Name = 'Norway' "
-                + "ORDER BY city.Population DESC;";
+                + "WHERE country.name = %s "
+                + "ORDER BY city.Population DESC;", country);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    public String districtCities(){
-        String stmt = "SELECT city.Name, country.name AS Country, District, city.Population "
+    public String districtCities(String district){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
         + "FROM city JOIN country ON (country.code=city.countrycode) "
-        + "WHERE city.district = 'Fujian'"
-        + "ORDER BY city.population DESC;";
+        + "WHERE city.district = %s "
+        + "ORDER BY city.population DESC;", district);
 
         return sqlManager.executeStatement(stmt);
     }
+
+    public String topNPopulatedCitiesInAContinent(String continent, String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "WHERE country.continent = %s "
+                + "ORDER BY city.population DESC LIMIT %s;", continent, limit);
+
+        return sqlManager.executeStatement(stmt);
+    }
+
+    public String topNPopulatedCitiesInACountry(String country, String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+                        + "FROM city JOIN country ON (country.code=city.countrycode) "
+                        + "WHERE country.name = %s "
+                        + "ORDER BY city.population DESC LIMIT %s;", country, limit);
+
+        return sqlManager.executeStatement(stmt);
+    }
+
+    public String topNPopulatedCitiesInARegion(String region, String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "WHERE country.region = %s "
+                + "ORDER BY city.population DESC LIMIT %s;", region, limit);
+
+        return sqlManager.executeStatement(stmt);
+    }
+
+    public String topNPopulatedCitiesInADistrict(String district, String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "WHERE country.district = %s "
+                + "ORDER BY city.population DESC LIMIT %s;", district, limit);
+
+        return sqlManager.executeStatement(stmt);
+    }
+
+
+
 }
