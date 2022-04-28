@@ -45,6 +45,15 @@ public class App
         System.out.println(city.worldCities());
         System.out.println(city.continentCities(continent));
 
+        System.out.println(capitalCity.worldCapitalCities());
+        System.out.println(capitalCity.continentCapitalCities(continent));
+        System.out.println(capitalCity.regionCapitalCities(region));
+        System.out.println(capitalCity.topNPopulatedCapitalCitiesInTheWorld(limit));
+        System.out.println(capitalCity.topNPopulatedCapitalCitiesInAContinent(continent, limit));
+        System.out.println(capitalCity.topNPopulatedCapitalCitiesInARegion(region, limit));
+        System.out.println(population.everyContinentPopulation());
+        System.out.println(population.everyRegionPopulation());
+
         System.out.println(city.regionCities(region));
         System.out.println(city.countryCities(countryName));
         System.out.println(city.districtCities(district));
