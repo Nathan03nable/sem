@@ -46,7 +46,16 @@ public class App
         System.out.println(city.continentCities(continent));
 
 
+        System.out.println(population.everyCountryPopulation());
+        System.out.println(population.worldPopulation());
+        System.out.println(population.continentPopulation(continent));
+        System.out.println(population.regionPopulation(region));
+        System.out.println(population.countryPopulation(countryName));
+        System.out.println(population.districtPopulation(district));
+        System.out.println(population.cityPopulation(cityName));
+
         String worldPop = population.extractWorldPopulation(population.worldPopulation());
+        System.out.println(language.languagesReport(worldPop));
 
         databaseConnection.disconnect();
     }
