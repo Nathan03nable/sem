@@ -25,7 +25,6 @@ public class City {
         return sqlManager.executeStatement(stmt);
     }
 
-
     public String regionCities(String region){
         String stmt = String.format("SELECT city.Name, country.Name AS 'Country', District, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "

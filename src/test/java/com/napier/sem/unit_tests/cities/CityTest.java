@@ -161,5 +161,4 @@ class CityTest {
     String result = subject.topNPopulatedCitiesInADistrict(district, limit);
     assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
   }
-
 }

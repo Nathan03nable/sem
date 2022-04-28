@@ -5,10 +5,10 @@ import com.napier.sem.languages.Language;
 import com.napier.sem.population.Population;
 import com.napier.sem.countries.Country;
 import com.napier.sem.cities.City;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class App
 {
