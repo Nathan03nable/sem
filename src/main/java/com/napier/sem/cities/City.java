@@ -83,12 +83,17 @@ public class City {
     public String topNPopulatedCitiesInADistrict(String district, String limit){
         String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
                 + "FROM city JOIN country ON (country.code=city.countrycode) "
-                + "WHERE country.district = %s "
+                + "WHERE city.district = %s "
                 + "ORDER BY city.population DESC LIMIT %s;", district, limit);
 
         return sqlManager.executeStatement(stmt);
     }
 
+    public String topNPopulatedCitiesInTheWorld(String limit){
+        String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
+                + "FROM city JOIN country ON (country.code=city.countrycode) "
+                + "ORDER BY city.population DESC LIMIT %s;", limit);
 
-
+        return sqlManager.executeStatement(stmt);
+    }
 }
