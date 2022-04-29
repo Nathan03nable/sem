@@ -5,12 +5,19 @@ import com.napier.sem.languages.Language;
 import com.napier.sem.population.Population;
 import com.napier.sem.countries.Country;
 import com.napier.sem.cities.City;
-import java.util.logging.Logger;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class App
 {
     static final String limit = "5";
-    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
+    static final String continent = "'Oceania'";
+    static final String countryName = "'Spain'";
+    static final String district = "'Fujian'";
+    static final String region = "'Caribbean'";
+    static final String cityName = "'London'";
 
     public static void main(String[] args) {
         String location;
@@ -29,43 +36,45 @@ public class App
         CapitalCity capitalCity = new CapitalCity(sqlManager);
         Language language = new Language(sqlManager);
 
-        LOGGER.info(population.cityPopulation("'London'"));
-        LOGGER.info(population.countryPopulation("'France'"));
-        LOGGER.info(population.districtPopulation("'Caribbean'"));
-        LOGGER.info(population.continentPopulation("'Europe'"));
-        LOGGER.info(population.everyContinentPopulation());
-        LOGGER.info(population.everyCountryPopulation());
-        LOGGER.info(population.everyRegionPopulation());
-        LOGGER.info(population.topNPopulatedCountriesInWorld("Afghanistan", limit));
-        LOGGER.info(population.topNPopulatedCountriesInContinent("Africa", limit));
-        LOGGER.info(population.topNPopulatedCountriesInRegion("Caribbean", limit));
+        System.out.println(country.worldCountries());
+        System.out.println(country.continentCountries(continent));
+        System.out.println(country.regionCountries(region));
+        System.out.println(country.topNPopulatedCountries(limit));
+        System.out.println(country.topNPopulatedContinentCountries(continent, limit));
+        System.out.println(country.topNPopulatedRegionalCountries(region, limit));
+        System.out.println(city.worldCities());
+        System.out.println(city.continentCities(continent));
 
-        LOGGER.info(country.continentCountries());
-        LOGGER.info(country.regionCountries());
-        LOGGER.info(country.worldCountries());
-        LOGGER.info(country.topNPopulatedContinentCountries(limit));
-        LOGGER.info(country.topNPopulatedCountries(limit));
-        LOGGER.info(country.topNPopulatedContinentCountries(limit));
+        System.out.println(capitalCity.worldCapitalCities());
+        System.out.println(capitalCity.continentCapitalCities(continent));
+        System.out.println(capitalCity.regionCapitalCities(region));
+        System.out.println(capitalCity.topNPopulatedCapitalCitiesInTheWorld(limit));
+        System.out.println(capitalCity.topNPopulatedCapitalCitiesInAContinent(continent, limit));
+        System.out.println(capitalCity.topNPopulatedCapitalCitiesInARegion(region, limit));
+        System.out.println(population.everyContinentPopulation());
+        System.out.println(population.everyRegionPopulation());
 
-        LOGGER.info(city.continentCities());
-        LOGGER.info(city.countryCities());
-        LOGGER.info(city.districtCities());
-        LOGGER.info(city.regionCities());
-        LOGGER.info(city.worldCities());
+        System.out.println(city.regionCities(region));
+        System.out.println(city.countryCities(countryName));
+        System.out.println(city.districtCities(district));
+        System.out.println(city.topNPopulatedCitiesInTheWorld(limit));
+        System.out.println(city.topNPopulatedCitiesInAContinent(continent, limit));
+        System.out.println(city.topNPopulatedCitiesInARegion(region, limit));
+        System.out.println(city.topNPopulatedCitiesInACountry(countryName, limit));
+        System.out.println(city.topNPopulatedCitiesInADistrict(district, limit));
 
-        LOGGER.info(capitalCity.worldCapitalCities());
-        LOGGER.info(capitalCity.regionCapitalCities());
-        LOGGER.info(capitalCity.continentCapitalCities());
-        LOGGER.info(capitalCity.topNPopulatedCitiesInARegion(limit));
-        LOGGER.info(capitalCity.topNPopulatedCitiesInAContinent(limit));
-        LOGGER.info(capitalCity.topNPopulatedCapitalCitiesInTheWorld(limit));
-        LOGGER.info(capitalCity.topNPopulatedCitiesInARegion(limit));
-        LOGGER.info(capitalCity.topNPopulatedCitiesInAContinent(limit));
+
+        System.out.println(population.everyCountryPopulation());
+        System.out.println(population.worldPopulation());
+        System.out.println(population.continentPopulation(continent));
+        System.out.println(population.regionPopulation(region));
+        System.out.println(population.countryPopulation(countryName));
+        System.out.println(population.districtPopulation(district));
+        System.out.println(population.cityPopulation(cityName));
 
         String worldPop = population.extractWorldPopulation(population.worldPopulation());
-        LOGGER.info(language.languagesReport(worldPop));
+        System.out.println(language.languagesReport(worldPop));
 
-        LOGGER.info(population.worldPopulation());
         databaseConnection.disconnect();
     }
 }

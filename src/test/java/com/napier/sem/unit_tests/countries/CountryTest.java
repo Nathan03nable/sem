@@ -11,8 +11,12 @@ import org.mockito.MockitoAnnotations;
 
 class CountryTest {
 
-    String limit = "5";
     private Country subject;
+    static final String limit = "5";
+    static final String continent = "'Africa'";
+    static final String country = "'Spain'";
+    static final String district = "'Fujian'";
+    static final String region = "'Middle East'";
 
     @Mock
     private SqlManager sqlManager;
@@ -37,25 +41,25 @@ class CountryTest {
 
     @Test
     void continentCountriesTest() {
-        String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC";
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = %s ORDER BY population DESC;", continent);
 
         String expected = "String returned";
 
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-        String result = subject.continentCountries();
+        String result = subject.continentCountries(continent);
         assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
     void regionCountriesTest() {
-        String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE region = 'Middle East' ORDER BY population DESC";
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = %s ORDER BY population DESC;", region);
 
         String expected = "String returned";
 
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-        String result = subject.regionCountries();
+        String result = subject.regionCountries(region);
         assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
@@ -73,25 +77,25 @@ class CountryTest {
 
     @Test
     void topNPopulatedContinentCountriesTest() {
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC LIMIT %s", limit);
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = %s ORDER BY population DESC LIMIT %s", continent, limit);
 
         String expected = "String returned";
 
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-        String result = subject.topNPopulatedContinentCountries(limit);
+        String result = subject.topNPopulatedContinentCountries(continent, limit);
         assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 
     @Test
     void topNPopulatedRegionalCountriesTest() {
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = 'Middle East' ORDER BY population DESC LIMIT %s", limit);
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = %s ORDER BY population DESC LIMIT %s", region, limit);
 
         String expected = "String returned";
 
         Mockito.when(sqlManager.executeStatement(stmt)).thenReturn(expected);
 
-        String result = subject.topNPopulatedRegionalCountries(limit);
+        String result = subject.topNPopulatedRegionalCountries(region, limit);
         assertEquals(sqlManager.executeStatement(stmt), result, "Should return expected string");
     }
 }

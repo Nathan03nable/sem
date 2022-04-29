@@ -16,14 +16,14 @@ public class Country {
         return sqlManager.executeStatement(stmt);
     }
 
-    public String continentCountries(){
-        String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC";
+    public String continentCountries(String continent){
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = %s ORDER BY population DESC;", continent);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    public String regionCountries(){
-        String stmt = "SELECT name, code, continent, region, population, capital FROM country WHERE region = 'Middle East' ORDER BY population DESC";
+    public String regionCountries(String region){
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = %s ORDER BY population DESC;", region);
 
         return sqlManager.executeStatement(stmt);
     }
@@ -34,14 +34,14 @@ public class Country {
         return sqlManager.executeStatement(stmt);
     }
 
-    public String topNPopulatedContinentCountries(String limit){
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = 'Africa' ORDER BY population DESC LIMIT %s", limit);
+    public String topNPopulatedContinentCountries(String continent, String limit){
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE continent = %s ORDER BY population DESC LIMIT %s", continent, limit);
 
         return sqlManager.executeStatement(stmt);
     }
 
-    public String topNPopulatedRegionalCountries(String limit){
-        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = 'Middle East' ORDER BY population DESC LIMIT %s", limit);
+    public String topNPopulatedRegionalCountries(String region, String limit){
+        String stmt = String.format("SELECT name, code, continent, region, population, capital FROM country WHERE region = %s ORDER BY population DESC LIMIT %s", region, limit);
 
         return sqlManager.executeStatement(stmt);
     }
