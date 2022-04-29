@@ -152,7 +152,7 @@ class CityTest {
   void topNPopulatedCitiesInADistrictTest(){
     String stmt = String.format("SELECT city.Name, country.name AS Country, District, city.Population "
             + "FROM city JOIN country ON (country.code=city.countrycode) "
-            + "WHERE country.district = %s "
+            + "WHERE city.district = %s "
             + "ORDER BY city.population DESC LIMIT %s;", district, limit);
 
     String expected = "String returned";
